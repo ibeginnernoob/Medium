@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { Prisma, PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 
@@ -13,6 +14,7 @@ const app = new Hono<{
   }
 }>()
 
+app.use('/api/*', cors())
 app.get('/', (c) => {
   return c.text('Hello Hono!')
 })

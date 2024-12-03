@@ -50,7 +50,7 @@ authRouter.post('/signup',async (c)=>{
 
         return c.json({
             token
-        })
+        },201)
     } catch(e){
         return c.text("User creation failed.",403)
     }
@@ -89,7 +89,7 @@ authRouter.post('/signin',async (c)=>{
 
             return c.json({
                 token
-            })
+            },200)
         }
     } catch(e){
         return c.text("User verification failed.",403)
