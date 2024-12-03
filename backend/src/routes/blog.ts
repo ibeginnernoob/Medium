@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { createPostInput, updatePostInput } from '@adheil_gupta/medium-zod'
 
 const blogRouter=new Hono<{
   Bindings:{
@@ -17,6 +18,11 @@ blogRouter.post('/create',async (c)=>{
     const authorId=c.get('userId')
 
     const body=await c.req.json()
+
+    const {success}=createPostInput.safeParse(body)
+    if(!success){
+        return c.text("Invalid inputs!",403)
+    }
     
     const DBResponse=await prisma.post.create({
       data:{
@@ -73,6 +79,11 @@ blogRouter.put('/update/:id',async (c) => {
     const prisma=c.get('prisma')
     const body=await c.req.json()
     const blogId=c.req.param("id")
+
+    const {success}=updatePostInput.safeParse(body)
+    if(!success){
+        return c.text("Invalid inputs!",403)
+    }
     
     const DBResponse=await prisma.post.update({
       where:{

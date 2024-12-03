@@ -5,7 +5,7 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
-    "@adheil_gupta/medium-zod": "^1.0.4",
+    "@adheil_gupta/medium-zod": "^1.0.6",
     "@prisma/client": "^6.0.0",
     "@prisma/extension-accelerate": "^1.2.1",
     "@tsndr/cloudflare-worker-jwt": "^3.1.3",

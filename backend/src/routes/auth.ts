@@ -1,8 +1,6 @@
 import { Hono } from 'hono'
 import jwt from "@tsndr/cloudflare-worker-jwt"
-
-// this import does not work yet
-// import {signupInput} from '@adheil_gupta/medium-zod'
+import { signinInput, signupInput } from '@adheil_gupta/medium-zod'
 
 const authRouter = new Hono<{
     Bindings:{
@@ -27,6 +25,11 @@ authRouter.post('/signup',async (c)=>{
 
         if(user){
             return c.text("User with email already exists!",403)
+        }
+
+        const {success}=signupInput.safeParse(body)
+        if(!success){
+            return c.text("Invalid inputs!",403)
         }
 
         const DBResponse=await prisma.user.create({
@@ -61,6 +64,11 @@ authRouter.post('/signin',async (c)=>{
 
         const email=body.email
         const password=body.password
+
+        const {success}=signinInput.safeParse(body)
+        if(!success){
+            return c.text("Invalid inputs!",403)
+        }
 
         const user=await prisma.user.findUnique({
             where:{
