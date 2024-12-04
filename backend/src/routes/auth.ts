@@ -96,4 +96,19 @@ authRouter.post('/signin',async (c)=>{
     }
 })
 
+authRouter.delete('/bulk',async (c)=>{
+    try{
+        const prisma=c.get("prisma")
+
+        const postDeletion=prisma.post.deleteMany({})
+        const userDeletion=prisma.user.deleteMany({})
+
+        const DBResponse=await prisma.$transaction([postDeletion,userDeletion])
+
+        return c.text("Users deletion successful!",200)
+    } catch(e){
+        return c.text("User deletion failed.",403)
+    }
+})
+
 export default authRouter

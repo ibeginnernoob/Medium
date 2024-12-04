@@ -15,13 +15,13 @@ function Signin(){
 
     const sendSigninRequest=async ()=>{
         try{
-            const response=await axios.post(`${BACKEND_URL}/api/v1/auth/signup`,signinInputs)
+            const response=await axios.post(`${BACKEND_URL}/api/v1/auth/signin`,signinInputs)
 
             const token=response.data.token
             if(!token){
                 throw new Error("Sign up failed!")
             }
-            localStorage.setItem("mediumToken",token)
+            localStorage.setItem("mediumToken",`Bearer ${token}`)
 
             navigate('/blogs')
             

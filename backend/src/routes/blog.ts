@@ -45,12 +45,22 @@ blogRouter.get('/bulk',async (c)=>{
   try{
     const prisma=c.get("prisma")
     
-    const posts=await prisma.post.findMany()
+    const posts=await prisma.post.findMany({
+      include:{
+        author:{
+          select:{
+            email:true,
+            name:true
+          }
+        }
+      }
+    })
 
     return c.json({
       posts:posts
     },200)
   } catch(e){
+    console.log(e)
     c.text("Internal server error.",500)
   }
 })
@@ -63,6 +73,14 @@ blogRouter.get('/:id',async (c)=>{
     const post=await prisma.post.findUnique({
       where:{
         id:blogId
+      },
+      include:{
+        author:{
+          select:{
+            name:true,
+            email:true
+          }
+        }
       }
     })
 
@@ -100,6 +118,35 @@ blogRouter.put('/update/:id',async (c) => {
 
   } catch(e){
     return c.text("Post creation failed",411)
+  }
+})
+
+blogRouter.delete('/:id',async (c)=>{
+  try{
+    const prisma=c.get("prisma")
+    const blogId=c.req.param("id")
+
+    const DBResponse=await prisma.post.delete({
+      where:{
+        id:blogId
+      }
+    })
+
+    return c.text("Post deleted successfully!",411)
+  } catch(e){
+    return c.text("Post deletion failed",411)
+  }
+})
+
+blogRouter.delete('/bulk',async (c)=>{
+  try{
+    const prisma=c.get("prisma")
+
+    const DBResponse=await prisma.post.deleteMany({})
+
+    return c.text("Posts deleted successfully!",411)
+  } catch(e){
+    return c.text("Post deletion failed!",411)
   }
 })
 

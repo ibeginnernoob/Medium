@@ -24,7 +24,7 @@ function Signup(){
             if(!token){
                 throw new Error("Sign up failed!")
             }
-            localStorage.setItem("mediumToken",token)
+            localStorage.setItem("mediumToken",`Bearer ${token}`)
 
             navigate('/blogs')
             
