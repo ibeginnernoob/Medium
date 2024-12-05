@@ -6,10 +6,12 @@ import axios from "axios"
 import Auth from "../components/Auth"
 
 import { BACKEND_URL } from "../config"
+import Spinner from "../components/Spinner"
 
 function Signup(){
     const navigate=useNavigate()
 
+    const [loading,setLoading]=useState(false)
     const [signupInputs,setSignupInputs]=useState<SignupInput>({
         name:"",
         email:"",
@@ -18,6 +20,8 @@ function Signup(){
 
     const sendSignupRequest=async ()=>{
         try{
+            setLoading(true)
+
             const response=await axios.post(`${BACKEND_URL}/api/v1/auth/signup`,signupInputs)
 
             const token=response.data.token
@@ -26,11 +30,20 @@ function Signup(){
             }
             localStorage.setItem("mediumToken",`Bearer ${token}`)
 
+            setLoading(false)
             navigate('/blogs')
             
         } catch(e){
             alert("Sign up failed!")
         }
+    }
+
+    if(loading===true){
+        return(
+            <div>
+                <Spinner/>
+            </div>
+        )
     }
 
     return(

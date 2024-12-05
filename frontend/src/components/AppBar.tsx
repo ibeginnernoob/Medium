@@ -1,13 +1,20 @@
+import { useNavigate } from 'react-router'
 
 import MediumIcon from '../assets/mediumIcon.svg'
 import AccountDP from '../assets/logic.jpg'
 
 function AppBar(){
+    const navigate=useNavigate()
+
     return (
         <div className='flex flex-row justify-between items-center px-8 py-2 lg:px-24 border-b-[1px] border-gray-200'>
-            <img src={MediumIcon} alt="Medium Icon" className='w-12' />
+            <img src={MediumIcon} alt="Medium Icon" className='w-12 cursor-pointer' onClick={()=>{
+                navigate('/blogs')
+            }} />
             <div className='flex flex-row items-center'>
-                <button className='bg-green-500 text-white text-xs px-2.5 py-1 rounded-xl mr-8 hover:opacity-80'>Publish</button>
+                <button className='bg-green-500 text-white text-xs px-2.5 py-1 rounded-xl mr-8 hover:opacity-80' onClick={()=>{
+                    navigate('/publish')
+                }}>New</button>
                 <div className='cursor-pointer mr-8'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" height="16px" width="16px" version="1.1" id="Capa_1" viewBox="0 0 32.055 32.055">
                         <g>
@@ -16,8 +23,8 @@ function AppBar(){
                     </svg>
                 </div>
                 <div className="cursor-pointer mr-8">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
                     </svg>
                 </div>
                 <img src={AccountDP} alt="Account DP" className='w-9 rounded-full cursor-pointer hover:opacity-80' />

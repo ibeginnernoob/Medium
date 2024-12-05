@@ -1,8 +1,9 @@
 
-import { useBlogs } from '../hooks/getBlogs.js'
+import { useBlogs } from '../hooks/getBlogs.tsx'
 
-import BlogCard from '../components/BlogCard.js'
+import BlogCard from '../components/BlogCard.tsx'
 import AppBar from '../components/AppBar'
+import Spinner from '../components/Spinner.tsx'
 
 function Blogs(){
     const {loading,posts}=useBlogs()
@@ -10,7 +11,7 @@ function Blogs(){
     if(loading){
         return(
             <div>
-                ...loading
+                <Spinner/>
             </div>
         )
     }
