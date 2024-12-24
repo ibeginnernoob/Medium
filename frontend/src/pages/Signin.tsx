@@ -2,10 +2,10 @@ import { useState } from "react"
 import { useNavigate } from "react-router"
 import axios from "axios"
 
-import Auth from "../components/Auth"
-import Spinner from "../components/Spinner"
+import Auth from "../components/Auth.tsx"
+import Spinner from "../components/Spinner.tsx"
 
-import { BACKEND_URL } from "../config"
+import { BACKEND_URL } from "../config.ts"
 
 function Signin(){
     const navigate=useNavigate()

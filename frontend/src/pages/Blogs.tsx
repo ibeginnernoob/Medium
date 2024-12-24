@@ -2,7 +2,7 @@
 import { useBlogs } from '../hooks/getBlogs.tsx'
 
 import BlogCard from '../components/BlogCard.tsx'
-import AppBar from '../components/AppBar'
+import AppBar from '../components/AppBar.tsx'
 import Spinner from '../components/Spinner.tsx'
 
 function Blogs(){

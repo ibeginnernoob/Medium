@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router'
 
-import Signup from './pages/Signup'
-import Signin from './pages/Signin'
-import Blog from './pages/Blog'
-import Blogs from './pages/Blogs'
+import Signup from './pages/Signup.tsx'
+import Signin from './pages/Signin.tsx'
+import Blog from './pages/Blog.tsx'
+import Blogs from './pages/Blogs.tsx'
 import Publish from './pages/Publish'
 import Spinner from './components/Spinner'
 

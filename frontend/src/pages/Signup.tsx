@@ -3,10 +3,9 @@ import { useNavigate } from "react-router"
 import { SignupInput } from "@adheil_gupta/medium-zod"
 import axios from "axios"
 
-import Auth from "../components/Auth"
-
-import { BACKEND_URL } from "../config"
-import Spinner from "../components/Spinner"
+import Auth from "../components/Auth.tsx"
+import { BACKEND_URL } from "../config.ts"
+import Spinner from "../components/Spinner.tsx"
 
 function Signup(){
     const navigate=useNavigate()

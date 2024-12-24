@@ -3,9 +3,9 @@ import axios from "axios"
 import { useNavigate } from "react-router"
 import { CreatePostInput } from "@adheil_gupta/medium-zod"
 
-import AppBar from "../components/AppBar"
-import CreateBlog from "../components/CreateBlog"
-import Spinner from "../components/Spinner"
+import AppBar from "../components/AppBar.tsx"
+import CreateBlog from "../components/CreateBlog.tsx"
+import Spinner from "../components/Spinner.tsx"
 
 import { BACKEND_URL } from "../config"
 

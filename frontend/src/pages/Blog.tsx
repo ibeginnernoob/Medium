@@ -1,9 +1,9 @@
 import { useParams } from "react-router"
 
-import { useBlog } from "../hooks/getBlogData"
-import BlogDetails from "../components/BlogDetails"
-import AppBar from "../components/AppBar"
-import Spinner from "../components/Spinner"
+import { useBlog } from "../hooks/getBlogData.tsx"
+import BlogDetails from "../components/BlogDetails.tsx"
+import AppBar from "../components/AppBar.tsx"
+import Spinner from "../components/Spinner.tsx"
 
 function Blog(){
     const {id}=useParams()
