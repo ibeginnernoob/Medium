@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { serve } from '@honojs/node-server'
 import { cors } from 'hono/cors'
 import { Prisma, PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
@@ -36,3 +37,8 @@ app.use(async (c,next)=>{
 app.route('/api/v1',router)
 
 export default app
+
+// export default serve({
+//   fetch: app.fetch,
+//   port: 4000,
+// })
