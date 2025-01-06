@@ -10,7 +10,7 @@ const authRouter = new Hono<{
     Variables:{
         prisma:any
     }
-  }>()
+}>()
 
 authRouter.post('/signup',async (c)=>{
     try{
@@ -52,6 +52,7 @@ authRouter.post('/signup',async (c)=>{
             token
         },201)
     } catch(e){
+        console.log(e)
         return c.text("User creation failed.",403)
     }
 })

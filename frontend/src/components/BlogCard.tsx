@@ -14,8 +14,8 @@ type props={
 function BlogCard({authorName,publishDate,title,description,id}:props){
     return(
         <Link to={`blog/${id}`}>
-            <div className="mx-24 flex flex-row items-center px-2 py-6 border-b-[1px] border-gray-200 cursor-pointer">
-                <div className="w-[100%] md:w-auto">
+            <div className="mx-24 flex flex-row items-center px-2 py-6 border-b-[1px] border-gray-200 cursor-pointer md:justify-between">
+                <div className="w-[100%] md:w-[70%]">
                     <div className='flex flex-row items-center mb-3'>
                         {/* change account DP */}
                         <img src={AccountDP} alt="Account DP" className='w-6 rounded-full' />

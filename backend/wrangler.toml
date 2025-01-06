@@ -3,8 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2024-11-29"
 
 [vars]
-DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZDdhYzRmNTktZTc3My00NTJlLWE2ZTctY2Y2NzNhZGY3NDQ2IiwidGVuYW50X2lkIjoiYTg3ZTIwMTVhZWUxZjAzYTBmNjI2NDVkYmIyNjNhNWExZWIwYWRjNTZmMjQ3YTU2ODdlOTI1NGQ1MTBiM2IyOSIsImludGVybmFsX3NlY3JldCI6IjgyZTE5OGQzLWYzMjktNDYwMS1hYjNjLTQ5MTQ3MjhkYjBhMyJ9.2KtFUi5pRfQ5_VjgFpcDMMeZbIRJz7IQyTV3gXtjhts"
-JWTSecret="This a secret"
+DATABASE_URL="your accelerate URL"
+DIRECT_DATABASE_URL="your database URL"
+JWTSecret="your jwt secret"
 
 # compatibility_flags = [ "nodejs_compat" ]
 

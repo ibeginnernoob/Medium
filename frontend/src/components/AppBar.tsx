@@ -1,10 +1,22 @@
 import { useNavigate } from 'react-router'
 
+import Spinner from './Spinner'
+
+import { useUserData } from '../hooks/getUserData'
+
 import MediumIcon from '../assets/mediumIcon.svg'
-import AccountDP from '../assets/logic.jpg'
 
 function AppBar(){
     const navigate=useNavigate()
+    const {loading,username}=useUserData()
+
+    if(loading){
+        return(
+            <div>
+                <Spinner/>
+            </div>
+        )
+    }
 
     return (
         <div className='flex flex-row justify-between items-center px-8 py-2 lg:px-24 border-b-[1px] border-gray-200'>
@@ -27,10 +39,14 @@ function AppBar(){
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
                     </svg>
                 </div>
-                <img src={AccountDP} alt="Account DP" className='w-9 rounded-full cursor-pointer hover:opacity-80' />
+                <div className='w-9 h-9 flex flex-row justify-center items-center rounded-full cursor-pointer hover:opacity-80 bg-black text-white'>{get_DP(username)}</div>
             </div>
         </div>
     )
 }
 
 export default AppBar
+
+function get_DP(username:string){
+    return username.slice(0,1).toUpperCase()
+}
