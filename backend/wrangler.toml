@@ -3,9 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2024-11-29"
 
 [vars]
-DATABASE_URL="your accelerate URL"
-DIRECT_DATABASE_URL="your database URL"
-JWTSecret="your jwt secret"
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiMGYwOTlmZjItNDI3My00ZDc0LThhY2ItY2QzYzgxN2JhYzI3IiwidGVuYW50X2lkIjoiNDc4NzY5YzU1NGQ4ZTgxMTE3YmZmNGMwZGUwMWQzNDg0ZDhjYThiMDA3Nzc1ZWZhYmNlNDUyNmEyZTgzYWRhMyIsImludGVybmFsX3NlY3JldCI6ImQ3NjVkODEzLTVmNWUtNDBlMC1iY2M4LWU4ZmFiZGU4ODc3NyJ9.HcOi_V0nMpqrW41fqlz9zpBIRzUFkR4REWgKcd73tVs"
+DIRECT_DATABASE_URL="postgresql://neondb_owner:Qr9PuI7HxAkn@ep-late-brook-a4vx6m2i.us-east-1.aws.neon.tech/neondb?sslmode=require"
+JWTSecret="This a secret"
 
 # compatibility_flags = [ "nodejs_compat" ]
 

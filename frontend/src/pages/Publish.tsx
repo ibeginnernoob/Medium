@@ -1,13 +1,20 @@
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router"
-import { CreatePostInput } from "@adheil_gupta/medium-zod"
+// import { CreatePostInput } from "@adheil_gupta/medium-zod"
 
 import AppBar from "../components/AppBar"
 import CreateBlog from "../components/CreateBlog"
 import Spinner from "../components/Spinner"
 
 import { BACKEND_URL } from "../config"
+
+// temporary
+type CreatePostInput={
+    title:string,
+    content:string,
+    files:any
+}
 
 
 function Publish(){
@@ -16,7 +23,8 @@ function Publish(){
     const [loading,setLoading]=useState(false)
     const [blogDetails,setBlogDetails]=useState<CreatePostInput>({
         title:"",
-        content:""
+        content:"",
+        files:null
     })
 
     const onChangeTitle=(e:any)=>{
@@ -33,6 +41,15 @@ function Publish(){
             return {
                 ...prevDetails,
                 content:e.target.value
+            }
+        })
+    }
+
+    const onChangeImage=(e:any)=>{
+        setBlogDetails(prevDetails=>{
+            return {
+                ...prevDetails,
+                files:e.target.files
             }
         })
     }
@@ -70,7 +87,7 @@ function Publish(){
     return(
         <div>
             <AppBar/>
-            <CreateBlog onChangeTitle={onChangeTitle} onChangeDescr={onChangeDescr} sendRequest={sendRequest} />
+            <CreateBlog blogDetails={blogDetails} onChangeImage={onChangeImage} onChangeTitle={onChangeTitle} onChangeDescr={onChangeDescr} sendRequest={sendRequest} />
         </div>
     )
 }

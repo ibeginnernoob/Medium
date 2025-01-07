@@ -35,6 +35,7 @@ function Signup(){
             
         } catch(e){
             alert("Sign up failed!")
+            navigate(0)
         }
     }
 
