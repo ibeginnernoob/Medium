@@ -31,7 +31,8 @@ function Signin(){
             navigate('/blogs')
             
         } catch(e){
-            alert("Sign up failed!")
+            navigate(0)
+            alert("Sign in failed!")
         }
     }
 
