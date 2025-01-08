@@ -3,7 +3,7 @@
 type CreatePostInput={
     title:string,
     content:string,
-    files:any
+    file:any
 }
 
 type props={
@@ -17,20 +17,20 @@ type props={
 function CreateBlog({onChangeTitle,onChangeDescr,sendRequest,onChangeImage,blogDetails}:props){
 
     let link=null
-    if(blogDetails.files!==null){
-        link=window.URL.createObjectURL(blogDetails.files[0])
+    if(blogDetails.file!==null){
+        link=window.URL.createObjectURL(blogDetails.file)
     }
 
     return(
         <div className="flex flex-col px-80 pt-14">
             <textarea placeholder="Title" className="text-5xl resize-y font-semibold border-l-[1px] pl-2 border-gray-200 focus:outline-none" onChange={onChangeTitle} />
             <div className="my-8 flex flex-col items-center justify-center">
-                <input type="file" className="mb-6 text-sm text-stone-500
-                file:mr-5 file:py-1 file:px-3 file:border-[1px]
-                file:text-sm file:font-medium
-              file:bg-stone-50 file:text-stone-700
-                hover:file:cursor-pointer hover:file:bg-blue-50
-              hover:file:text-blue-700" onChange={(e)=>{
+                <input type="file" className="mb-6 w-[100px] text-transparent
+                file:py-1 file:px-2 file:border-[1px]
+                file:text-xs file:font-medium
+                file:bg-stone-50 file:text-stone-700
+                hover:file:bg-blue-50 hover:file:text-blue-700
+                file:cursor-pointer file:rounded-md" onChange={(e)=>{
                     if(e.target.files!==null){
                         onChangeImage(e)
                     }

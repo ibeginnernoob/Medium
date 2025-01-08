@@ -13,7 +13,7 @@ import { BACKEND_URL } from "../config"
 type CreatePostInput={
     title:string,
     content:string,
-    files:any
+    file:any
 }
 
 
@@ -24,7 +24,7 @@ function Publish(){
     const [blogDetails,setBlogDetails]=useState<CreatePostInput>({
         title:"",
         content:"",
-        files:null
+        file:null
     })
 
     const onChangeTitle=(e:any)=>{
@@ -49,7 +49,7 @@ function Publish(){
         setBlogDetails(prevDetails=>{
             return {
                 ...prevDetails,
-                files:e.target.files
+                file:e.target.files[0]
             }
         })
     }
@@ -57,18 +57,60 @@ function Publish(){
     const sendRequest=async ()=>{
         try{
             setLoading(true)
-            const response=await axios.post(`${BACKEND_URL}/api/v1/blog/create`,blogDetails,{
-                headers:{
-                    "Authorization":localStorage.getItem("mediumToken"),
-                    "Content-Type":'application/json'
+
+            if(blogDetails.file!==null){
+                const getUploadURLResponse=await axios.get('https://n2gs7t4y07.execute-api.us-east-1.amazonaws.com/uploads')
+
+                if(getUploadURLResponse.status!==200 || !getUploadURLResponse){
+                    throw new Error('Signed URL could not be retrived.')
                 }
-            })
-    
-            if(response.status!==201){
-                throw new Error("Post creation failed!")
+
+                const S3UploadURL=getUploadURLResponse.data.uploadURL
+
+                const objectKey=S3UploadURL.split("/")[3].split("?")[0]
+
+                const S3UploadResponse=await axios.put(S3UploadURL,blogDetails.file,{
+                    headers:{
+                        'Content-Type':blogDetails.file.type
+                    }
+                })
+
+                if(!S3UploadResponse || S3UploadResponse.status!==200){
+                    throw new Error("Image could not be uploaded to S3.")
+                }
+
+                const response=await axios.post(`${BACKEND_URL}/api/v1/blog/create`,{
+                    title:blogDetails.title,
+                    content:blogDetails.content,
+                    blogImageKey:objectKey
+                },{
+                    headers:{
+                        "Authorization":localStorage.getItem("mediumToken"),
+                        "Content-Type":'application/json'
+                    }
+                })
+                
+                if(response.status!==201){
+                    throw new Error("Post creation failed!")
+                }
+            }
+            else{
+                const response=await axios.post(`${BACKEND_URL}/api/v1/blog/create`,{
+                    title:blogDetails.title,
+                    content:blogDetails.content
+                },{
+                    headers:{
+                        "Authorization":localStorage.getItem("mediumToken"),
+                        "Content-Type":'application/json'
+                    }
+                })
+        
+                if(response.status!==201){
+                    throw new Error("Post creation failed!")
+                }
             }
 
-            setLoading(true)
+            setLoading(false)
             navigate('/blogs')
         } catch(e){
             console.log(e)

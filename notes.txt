@@ -1,1 +1,0 @@
-api end point - https://n2gs7t4y07.execute-api.us-east-1.amazonaws.com

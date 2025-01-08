@@ -28,7 +28,7 @@ blogRouter.post('/create',async (c)=>{
       data:{
         title:body.title,
         content:body.content,
-        thumbnail:body.thumbnail || "NA",
+        blogImageKey:body.blogImageKey || "NA",
         authorId:authorId
       }
     })
