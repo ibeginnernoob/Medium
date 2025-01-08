@@ -12,6 +12,26 @@ const authRouter = new Hono<{
     }
 }>()
 
+authRouter.get('/isAuth',async (c)=>{
+    try{
+        const authHeader:string=c.req.header("Authorization") || ""
+
+        const token=authHeader.split(' ')[1]
+    
+        const isVerified=await jwt.verify(token,c.env.JWTSecret)
+        if(!isVerified){
+            return c.text("Verification failed!",403)
+        }
+        const {payload}=jwt.decode(token)
+
+        return c.text("User authenticated!",200)
+  
+    } catch(e){
+        console.log(e)
+        return c.text("Something went wrong!",500)
+    }
+})
+
 authRouter.post('/signup',async (c)=>{
     try{
         const body=await c.req.json()
