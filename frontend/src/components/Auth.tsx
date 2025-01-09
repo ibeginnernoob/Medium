@@ -14,7 +14,7 @@ function Auth({setFunc,type,sendRequest}:props){
         <div className="flex flex-row">
             <div className="fixed left-0 top-0 bottom-0 flex flex-col w-[100%] justify-center items-center lg:w-1/2">
                 <h1 className="text-4xl font-semibold">{type==="signin"?"Log in to your account":"Create your account"}</h1>
-                <h3 className="mb-5 text-md text-gray-500">{type==="signin"?"Don't have an account yet?":"Already have an account?"} <Link className="underline" to={type==="signin"?"/":"/signin"}>{type==="signin"?"Signup":"Login"}</Link></h3>
+                <h3 className="mb-5 text-md text-gray-500">{type==="signin"?"Don't have an account yet?":"Already have an account?"} <Link className="underline" to={type==="signin"?"/signup":"/signin"}>{type==="signin"?"Signup":"Login"}</Link></h3>
                 {
                     type==="signin" ? null : <Input placeholder="Enter your username" title="Username" onChange={(e:any)=>{
                         setFunc((prevInputs:{

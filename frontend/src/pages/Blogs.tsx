@@ -15,20 +15,22 @@ function Blogs(){
             </div>
         )
     }
-
+  
     return(
         <>
             <AppBar />
-            <div>
+            <div className='mb-10'>
                 {
-                    posts.map((post)=>{
+                    posts.map((post,index)=>{
                         return(
                             <BlogCard
+                                key={index}
                                 authorName={post.author.name}
                                 title={post.title}
                                 description={post.content}
                                 publishDate={post.publishDate}
                                 id={post.id}
+                                imageKey={post.blogImageKey}
                             />
                         )
                     })

@@ -59,7 +59,7 @@ function Publish(){
             setLoading(true)
 
             if(blogDetails.file!==null){
-                const getUploadURLResponse=await axios.get('https://n2gs7t4y07.execute-api.us-east-1.amazonaws.com/uploads')
+                const getUploadURLResponse=await axios.get(`${import.meta.env.VITE_S3_UPLOAD_URL}`)
 
                 if(getUploadURLResponse.status!==200 || !getUploadURLResponse){
                     throw new Error('Signed URL could not be retrived.')
@@ -111,7 +111,7 @@ function Publish(){
             }
 
             setLoading(false)
-            navigate('/blogs')
+            navigate('/')
         } catch(e){
             console.log(e)
             alert("Post creation failed!")

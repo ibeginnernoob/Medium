@@ -28,7 +28,7 @@ function Signin(){
             localStorage.setItem("mediumToken",`Bearer ${token}`)
 
             setLoading(false)
-            navigate('/blogs')
+            navigate('/')
             
         } catch(e){
             navigate(0)

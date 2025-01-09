@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import Spinner from './Spinner'
 
 import { useUserData } from '../hooks/getUserData'
+import get_DP from '../format/getDPText'
 
 import MediumIcon from '../assets/mediumIcon.svg'
 
@@ -21,7 +22,7 @@ function AppBar(){
     return (
         <div className='flex flex-row justify-between items-center px-8 py-2 lg:px-24 border-b-[1px] border-gray-200'>
             <img src={MediumIcon} alt="Medium Icon" className='w-12 cursor-pointer' onClick={()=>{
-                navigate('/blogs')
+                navigate('/')
             }} />
             <div className='flex flex-row items-center'>
                 <button className='bg-green-500 text-white text-xs px-2.5 py-1 rounded-xl mr-8 hover:opacity-80' onClick={()=>{
@@ -47,6 +48,3 @@ function AppBar(){
 
 export default AppBar
 
-function get_DP(username:string){
-    return username.slice(0,1).toUpperCase()
-}
