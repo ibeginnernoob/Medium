@@ -14,18 +14,15 @@ function App(){
         <Routes>
           <Route path='/signup' element={<Signup/>} />
           <Route path='/signin' element={<Signin/>} />
-          <Route path='/blogs/blog/:id' element={<PrivateRoute/>}>
+          <Route path='/blog/:id' element={<PrivateRoute/>}>
             <Route index element={<Blog/>} />
           </Route>
-          <Route path='/blogs' element={<PrivateRoute/>}>
+          <Route path='/' element={<PrivateRoute/>}>
             <Route index element={<Blogs />} />
           </Route>
           <Route path='/publish' element={<PrivateRoute/>}>
             <Route index element={<Publish/>} />
           </Route>
-          {/* <Route path='/blogs' element={<PrivateRoute/>}>
-            <Route path='/spinner' element={<Spinner/>} />
-          </Route> */}
         </Routes>
       </BrowserRouter>
     </>

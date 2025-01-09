@@ -1,28 +1,34 @@
 
+import get_DP from "../format/getDPText"
+import getFormattedDate from "../format/getFormattedDate"
 
 type props={
     title:string,
     description:string,
     publishDate:string,
-    authorName:string
+    authorName:string,
+    imageURL:any
 }
 
-function BlogDetails({title,description,publishDate,authorName}:props){
+function BlogDetails({title,description,publishDate,authorName,imageURL}:props){
     return(
         <div className="flex flex-col px-20 py-6 lg:flex-row lg:pl-20 lg:pr-56 lg:justify-between">
-            <div className="w-[100%] mb-4 mr-20 lg:w-[75%]">
+            <div className="w-[100%] mr-10 lg:w-[75%]">
                 <h1 className="text-5xl font-bold">{title}</h1>
-                <p className="text-base text-gray-500 my-3">Posted on {publishDate}</p>
+                <p className="text-base text-gray-500 my-3">Posted on {getFormattedDate(publishDate)}</p>
+                <div className="w-full flex justify-end">
+                    {imageURL!==null ? <img className="w-[400px] my-5" src={imageURL} alt="Image" /> : null}
+                </div>
                 <p>
                     {description}
                 </p>
             </div>
             <div>
-            <p className="font-semibold">Author</p>
-            <div className="flex flex-row mt-6">
-                <div className="w-7 h-7 rounded-full bg-gray-100 mr-3" />
-                <h2 className="text-2xl font font-extrabold">{authorName}</h2>
-            </div>
+                <p className="font-semibold">Author</p>
+                <div className="flex flex-row items-center mt-6">
+                    <div className='w-7 h-7 mr-3 text-sm flex flex-row justify-center items-center rounded-full cursor-pointer hover:opacity-80 bg-black text-white'>{get_DP(authorName)}</div>
+                    <h2 className="text-2xl font font-extrabold">{authorName}</h2>
+                </div>
             </div>
         </div>
     )

@@ -7,7 +7,7 @@ type Post={
     id:string,
     title:string,
     content:string,
-    thumbnail:string,
+    blogImageKey:string,
     publishDate:string,
     authorId:string,
     author:{

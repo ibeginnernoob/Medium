@@ -31,7 +31,7 @@ function Signup(){
             localStorage.setItem("mediumToken",`Bearer ${token}`)
 
             setLoading(false)
-            navigate('/blogs')
+            navigate('/')
             
         } catch(e){
             alert("Sign up failed!")

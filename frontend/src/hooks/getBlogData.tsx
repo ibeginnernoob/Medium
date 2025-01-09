@@ -8,7 +8,8 @@ type BlogDetails={
     publishDate:string,
     author:{
         name:string
-    }
+    },
+    blogImageKey:string
 }
 
 export const useBlog=(blogId:string)=>{
@@ -19,7 +20,8 @@ export const useBlog=(blogId:string)=>{
         publishDate:"",
         author:{
             name:""
-        }
+        },
+        blogImageKey:""
     })
 
     useEffect(()=>{
@@ -29,7 +31,7 @@ export const useBlog=(blogId:string)=>{
                     Authorization:localStorage.getItem("mediumToken")
                 }
             })
-
+            console.log(response.data.post.blogImageKey)
             setBlogData(response.data.post)
             setLoading(false)
         }
