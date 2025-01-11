@@ -41,17 +41,81 @@ blogRouter.post('/create',async (c)=>{
   }
 })
 
+blogRouter.post('/save',async (c)=>{
+  try{
+    const prisma=c.get('prisma')
+    const authorId=c.get('userId')
+
+    const body=await c.req.json()
+
+    const isSaved=await prisma.postsSavedData.findFirst({
+      where:{
+        userId:authorId,
+        postId:body.postId
+      }
+    })
+
+    if(isSaved!==null){
+      const DBResponse=await prisma.postsSavedData.delete({
+        where:{
+          postId_userId:{
+            userId:authorId,
+            postId:body.postId
+          }
+        }
+      })
+
+      return c.text("Post unsaved successfully!",200)
+    }
+    else{
+      const DBResponse=await prisma.postsSavedData.create({
+        data:{
+          userId:authorId,
+          postId:body.postId
+        }
+      })
+
+      return c.text("Post saved successfully!",200)
+    }
+  } catch(e){
+    console.log(e)
+    return c.text("Post could not be saved!",500)
+  }
+})
+
 blogRouter.get('/bulk',async (c)=>{
   try{
     const prisma=c.get("prisma")
+    const authorId=c.get('userId')
     
-    const posts=await prisma.post.findMany({
+    let posts=await prisma.post.findMany({
       include:{
         author:{
           select:{
             email:true,
             name:true
           }
+        },
+        usersSaved:{
+          select:{
+            userId:true
+          }
+        }
+      }
+    })
+
+    posts=posts.map((post:any)=>{
+      const hasMatchingUser=post.usersSaved.some((user:any)=>user.userId===authorId)
+      if(hasMatchingUser){
+        return {
+          ...post,
+          saved:true
+        }
+      }
+      else{
+        return {
+          ...post,
+          saved:false
         }
       }
     })

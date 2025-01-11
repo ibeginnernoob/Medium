@@ -31,6 +31,7 @@ function Blogs(){
                                 publishDate={post.publishDate}
                                 id={post.id}
                                 imageKey={post.blogImageKey}
+                                saved={post.saved}
                             />
                         )
                     })
