@@ -13,8 +13,7 @@ type Post={
     author:{
         name:string,
         email:string
-    },
-    saved:boolean
+    }
 }
 
 type Posts=Post[] | []
