@@ -13,12 +13,13 @@ type Post={
     author:{
         name:string,
         email:string
-    }
+    },
+    saved:boolean
 }
 
 type Posts=Post[] | []
 
-export const useBlogs=()=>{
+export const useBlogs=(updateTrigger:any)=>{
     const [loading,setLoading]=useState(true)
     const [posts,setPosts]=useState<Posts>([])
 
@@ -35,7 +36,7 @@ export const useBlogs=()=>{
         }
 
         sendRequest()
-    },[])
+    },[updateTrigger])
      
     return {
         loading:loading,

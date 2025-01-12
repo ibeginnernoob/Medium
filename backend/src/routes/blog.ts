@@ -41,18 +41,111 @@ blogRouter.post('/create',async (c)=>{
   }
 })
 
+blogRouter.get('/saved',async (c)=>{
+  try{
+    const prisma=c.get('prisma')
+    const authorId=c.get('userId')
+
+    const savedBlogs=await prisma.usersSavedPostsData.findMany({
+      where:{
+        userId:authorId
+      },
+      include:{
+        post:{
+          include:{
+            author:{
+              select:{
+                email:true,
+                name:true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    return c.json({savedBlogs:savedBlogs},200)
+  } catch(e){
+    console.log(e)
+    return c.text("Could not fetch saved posts!",500)
+  }
+})
+
+blogRouter.post('/save',async (c)=>{
+  try{
+    const prisma=c.get('prisma')
+    const authorId=c.get('userId')
+
+    const body=await c.req.json()
+
+    const isSaved=await prisma.usersSavedPostsData.findFirst({
+      where:{
+        userId:authorId,
+        postId:body.postId
+      }
+    })
+
+    if(isSaved){
+      const DBResponse=await prisma.usersSavedPostsData.delete({
+        where:{
+          postId_userId:{
+            userId:authorId,
+            postId:body.postId
+          }
+        }
+      })
+
+      return c.text('Post successfully unsaved!',200)
+    }
+    else{
+      const DBResponse=await prisma.usersSavedPostsData.create({
+        data:{
+          userId:authorId,
+          postId:body.postId
+        }
+      })
+
+      return c.text('Post successfully saved!',200)
+    }
+  } catch(e){
+    console.log(e)
+    return c.text("Something went wrong!",500)
+  }
+})
+
 blogRouter.get('/bulk',async (c)=>{
   try{
     const prisma=c.get("prisma")
+    const authorId=c.get('userId')
+
     
-    const posts=await prisma.post.findMany({
+    let posts=await prisma.post.findMany({
       include:{
         author:{
           select:{
             email:true,
             name:true
           }
+        },
+        usersSaved:{
+          select:{
+            userId:true
+          }
         }
+      }
+    })
+
+    posts=posts.map((post:any)=>{
+      const isSavedByUser=post.usersSaved.some((savedData:any)=>savedData.userId===authorId)
+      if(isSavedByUser){
+        return {
+          ...post,
+          saved:true
+        }
+      }
+      return {
+        ...post,
+        saved:false
       }
     })
 

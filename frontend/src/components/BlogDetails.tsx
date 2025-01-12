@@ -16,10 +16,10 @@ function BlogDetails({title,description,publishDate,authorName,imageURL}:props){
             <div className="w-[100%] mr-10 lg:w-[75%]">
                 <h1 className="text-5xl font-bold">{title}</h1>
                 <p className="text-base text-gray-500 my-3">Posted on {getFormattedDate(publishDate)}</p>
-                <div className="w-full flex justify-end">
+                <div className="w-full flex justify-center">
                     {imageURL!==null ? <img className="w-[400px] my-5" src={imageURL} alt="Image" /> : null}
                 </div>
-                <p>
+                <p className="mt-5">
                     {description}
                 </p>
             </div>
