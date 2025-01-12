@@ -6,6 +6,7 @@ import Blog from './pages/Blog'
 import Blogs from './pages/Blogs'
 import Publish from './pages/Publish'
 import PrivateRoute from './components/PrivateRoute'
+import SavedBlogs from './pages/SavedBlogs'
 
 function App(){
   return(
@@ -22,6 +23,9 @@ function App(){
           </Route>
           <Route path='/publish' element={<PrivateRoute/>}>
             <Route index element={<Publish/>} />
+          </Route>
+          <Route path='/saved' element={<PrivateRoute/>}>
+            <Route index element={<SavedBlogs/>} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -31,7 +31,6 @@ export const useBlog=(blogId:string)=>{
                     Authorization:localStorage.getItem("mediumToken")
                 }
             })
-            console.log(response.data.post.blogImageKey)
             setBlogData(response.data.post)
             setLoading(false)
         }

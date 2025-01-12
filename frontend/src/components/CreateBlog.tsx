@@ -1,4 +1,6 @@
 
+import DynamicTextarea from "./DynamicTextArea"
+
 // temporary
 type CreatePostInput={
     title:string,
@@ -23,7 +25,7 @@ function CreateBlog({onChangeTitle,onChangeDescr,sendRequest,onChangeImage,blogD
 
     return(
         <div className="flex flex-col px-20 mt-10 sm:px-40 lg:px-60 xl:px-80 md-mt-14">
-            <textarea placeholder="Title" className="text-3xl resize-y font-semibold border-l-[1px] pl-2 border-gray-200 focus:outline-none sm:text-5xl" onChange={onChangeTitle} />
+            <DynamicTextarea placeholder="Title" className="text-3xl resize-y font-semibold border-l-[1px] pl-2 border-gray-200 focus:outline-none sm:text-5xl" onChange={onChangeTitle} />
             <div className="my-8 flex flex-col items-center justify-center">
                 <input type="file" className="mb-6 w-[100px] text-transparent
                 file:py-1 file:px-2 file:border-[1px]
@@ -37,7 +39,7 @@ function CreateBlog({onChangeTitle,onChangeDescr,sendRequest,onChangeImage,blogD
                 }} />
                 <img src={link!==null ? link : ""} className="w-80"/>
             </div>
-            <textarea placeholder="Tell your story..." className="text-lg resize-y font-semibold pl-2 mb-8 border-gray-200 focus:outline-none md:text-xl" onChange={onChangeDescr} />
+            <DynamicTextarea placeholder="Tell your story..." className="text-lg resize-y font-semibold pl-2 mb-8 border-gray-200 focus:outline-none md:text-xl" onChange={onChangeDescr} />
             <button className='bg-green-500 w-20 text-white text-sm px-2.5 py-1 rounded-2xl mr-8 hover:opacity-80 mb-5 md:w-24 sm:text-base' onClick={sendRequest}>Publish</button>
         </div>
     )

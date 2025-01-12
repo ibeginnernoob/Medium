@@ -20,6 +20,7 @@ model User{
   email String @unique
   password String
   posts Post[]
+  savedPosts UsersSavedPostsData[]
 }
 
 model Post{
@@ -31,4 +32,15 @@ model Post{
   // published Boolean @default(false)
   author User @relation(fields: [authorId],references: [id], onDelete: Cascade)
   authorId String
+  usersSaved UsersSavedPostsData[]
+}
+
+
+model UsersSavedPostsData{
+  postId String
+  post Post @relation(fields: [postId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  @@id([postId, userId])
 }
