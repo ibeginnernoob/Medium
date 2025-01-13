@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
-const DynamicTextarea = ({ placeholder, className, onChange }: {
+const DynamicTextarea = ({ value, placeholder, className, onChange }: {
+  value?: string;
   placeholder?: string;
   className?: string;
   onChange?: (e:any) => void;
@@ -28,6 +29,7 @@ const DynamicTextarea = ({ placeholder, className, onChange }: {
 
   return (
     <textarea
+    value={value}
       ref={textareaRef}
       placeholder={placeholder}
       className={`min-h-[40px] w-full resize-none overflow-hidden ${className}`}

@@ -1,4 +1,6 @@
-import { useState } from "react"
+
+import { useParams } from "react-router"
+import { useState, useEffect } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router"
 // import { CreatePostInput } from "@adheil_gupta/medium-zod"
@@ -12,15 +14,18 @@ import { BACKEND_URL } from "../config"
 // temporary
 type CreatePostInput={
     id:string,
-    blogImageKey:string,
     title:string,
     content:string,
+    blogImageKey:string,
     file:any
 }
 
 
-function Publish(){
+function UpdateBlog(){
     const navigate=useNavigate()
+
+    const {id}=useParams()
+
 
     const [loading,setLoading]=useState(false)
     const [blogDetails,setBlogDetails]=useState<CreatePostInput>({
@@ -30,6 +35,33 @@ function Publish(){
         blogImageKey:"",
         file:null
     })
+
+    useEffect(()=>{
+        setLoading(true)
+        const getBlogDetails=async ()=>{
+            try{
+                const response=await axios.get(`${BACKEND_URL}/api/v1/blog/${id}`,{
+                    headers:{
+                        Authorization:localStorage.getItem("mediumToken")
+                    }
+                })
+                setBlogDetails(prevData=>{
+                    return {
+                        ...prevData,
+                        title:response.data.post.title,
+                        id:response.data.post.id,
+                        content:response.data.post.content,
+                        blogImageKey:response.data.post.blogImageKey
+                    }
+                })
+                setLoading(false)
+            } catch(e){
+                console.log(e)
+            }
+        }
+
+        getBlogDetails()
+    },[])
 
     const onChangeTitle=(e:any)=>{
         setBlogDetails(prevDetails=>{
@@ -83,7 +115,7 @@ function Publish(){
                     throw new Error("Image could not be uploaded to S3.")
                 }
 
-                const response=await axios.post(`${BACKEND_URL}/api/v1/blog/create`,{
+                const response=await axios.put(`${BACKEND_URL}/api/v1/blog/update/${id}`,{
                     title:blogDetails.title,
                     content:blogDetails.content,
                     blogImageKey:objectKey
@@ -95,11 +127,11 @@ function Publish(){
                 })
                 
                 if(response.status!==201){
-                    throw new Error("Post creation failed!")
+                    throw new Error("Post update failed!")
                 }
             }
             else{
-                const response=await axios.post(`${BACKEND_URL}/api/v1/blog/create`,{
+                const response=await axios.put(`${BACKEND_URL}/api/v1/blog/update/${id}`,{
                     title:blogDetails.title,
                     content:blogDetails.content
                 },{
@@ -110,19 +142,20 @@ function Publish(){
                 })
         
                 if(response.status!==201){
-                    throw new Error("Post creation failed!")
+                    throw new Error("Post update failed!")
                 }
             }
 
             setLoading(false)
-            navigate('/')
+            navigate('/user-blogs')
         } catch(e){
             console.log(e)
-            alert("Post creation failed!")
+            alert("Post update failed!")
+            navigate('/user-blogs')
         }
     }
 
-    if(loading===true){
+    if(loading){
         return(
             <div>
                 <Spinner/>
@@ -133,9 +166,9 @@ function Publish(){
     return(
         <div>
             <AppBar/>
-            <CreateBlog blogDetails={blogDetails} onChangeImage={onChangeImage} onChangeTitle={onChangeTitle} onChangeDescr={onChangeDescr} sendRequest={sendRequest} />
+            <CreateBlog updating={true} blogDetails={blogDetails} onChangeImage={onChangeImage} onChangeTitle={onChangeTitle} onChangeDescr={onChangeDescr} sendRequest={sendRequest} />
         </div>
     )
 }
 
-export default Publish
+export default UpdateBlog

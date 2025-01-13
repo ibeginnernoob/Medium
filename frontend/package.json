@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@adheil_gupta/medium-zod": "^1.0.6",
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
     "@types/node": "^22.10.5",
     "axios": "^1.7.8",
     "dotenv": "^16.4.7",

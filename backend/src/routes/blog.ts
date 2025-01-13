@@ -113,6 +113,47 @@ blogRouter.post('/save',async (c)=>{
   }
 })
 
+blogRouter.get('/user-blogs',async (c)=>{
+  try{
+    const prisma=c.get('prisma')
+    const authorId=c.get('userId')
+
+    let userBlogs=await prisma.post.findMany({
+      where:{
+        authorId:authorId
+      },
+      include:{
+        usersSaved:true,
+        author:{
+          select:{
+            email:true,
+            name:true
+          }
+        },
+      }
+    })
+
+    userBlogs=userBlogs.map((blog:any)=>{
+      const isSaved=blog.usersSaved.some((saveData:any)=>saveData.userId=authorId)
+      if(isSaved){
+        return {
+          ...blog,
+          saved:true
+        }
+      }
+      return {
+        ...blog,
+        saved:false
+      }
+    })
+
+    return c.json({userBlogs:userBlogs},200)
+  } catch(e){
+    console.log(e)
+    return c.text('Something went wrong!',500)
+  }
+})
+
 blogRouter.get('/bulk',async (c)=>{
   try{
     const prisma=c.get("prisma")
@@ -191,21 +232,36 @@ blogRouter.put('/update/:id',async (c) => {
     const body=await c.req.json()
     const blogId=c.req.param("id")
 
-    const {success}=updatePostInput.safeParse(body)
-    if(!success){
-        return c.text("Invalid inputs!",403)
+    // work on zod validation
+
+    // const {success}=updatePostInput.safeParse(body)
+    // if(!success){
+    //     return c.text("Invalid inputs!",403)
+    // }
+
+    if(!body.blogImageKey){
+      const DBResponse=await prisma.post.update({
+        where:{
+          id:blogId
+        },
+        data:{
+          title:body.title,
+          content:body.content
+        }
+      })
     }
-    
-    const DBResponse=await prisma.post.update({
-      where:{
-        id:blogId
-      },
-      data:{
-        title:body.title,
-        content:body.content,
-        thumbnail:body.thumbnail || "NA",
-      }
-    })
+    else{
+      const DBResponse=await prisma.post.update({
+        where:{
+          id:blogId
+        },
+        data:{
+          title:body.title,
+          content:body.content,
+          blogImageKey:body.blogImageKey || "NA",
+        }
+      })
+    }
 
     return c.text("Post updated successfully!",201)
 
@@ -214,19 +270,33 @@ blogRouter.put('/update/:id',async (c) => {
   }
 })
 
-blogRouter.delete('/:id',async (c)=>{
+blogRouter.delete('/delete/:id',async (c)=>{
   try{
     const prisma=c.get("prisma")
     const blogId=c.req.param("id")
 
-    const DBResponse=await prisma.post.delete({
-      where:{
-        id:blogId
-      }
+    console.log('delete!')
+
+    const response=await prisma.$transaction(async (tx:any)=>{
+
+      await tx.usersSavedPostsData.deleteMany({
+        where:{
+          postId:blogId
+        }
+      })
+
+      await tx.post.delete({
+        where:{
+          id:blogId
+        }
+      })
+
+      return 'Successfully deleted!'
     })
 
-    return c.text("Post deleted successfully!",411)
+    return c.text(response,200)
   } catch(e){
+    console.log(e)
     return c.text("Post deletion failed",411)
   }
 })

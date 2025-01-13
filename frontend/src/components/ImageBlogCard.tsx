@@ -1,6 +1,7 @@
 
 import getFormattedDate from "../format/getFormattedDate"
 import get_DP from "../format/getDPText"
+import { useNavigate } from "react-router"
 
 type props={
     authorName:string,
@@ -10,10 +11,14 @@ type props={
     id:string,
     imageURL:string,
     saved:boolean | string,
-    savePost:(postId:string)=>void
+    savePost:(postId:string)=>void,
+    userBlog?:boolean,
+    deletePost?:(postId:string)=>void
 }
 
-function ImageBlogCard({authorName,publishDate,title,description,id,imageURL,saved,savePost}:props){
+function ImageBlogCard({authorName,publishDate,title,description,id,imageURL,saved,savePost,userBlog,deletePost}:props){
+    const navigate=useNavigate()
+
     return(
         <div className="mx-10 flex flex-col items-center py-6 border-b-[1px] border-gray-200 cursor-pointer md:justify-between md:mx-24 sm:flex-row">
             <div className="w-full flex flex-col md:w-[70%]">
@@ -22,6 +27,17 @@ function ImageBlogCard({authorName,publishDate,title,description,id,imageURL,sav
                     <p className='px-1.5 text-sm'>{authorName}</p>
                     <p>&#183;</p>
                     <p className='text-sm text-gray-400 px-1.5'>Posted on {getFormattedDate(publishDate)}</p>
+                    {userBlog===true ? <><button className="mx-5 text-xs text-white bg-cyan-500 border-blue-400 border-[2px] px-2 py-1 rounded-2xl hover:opacity-80" onClick={(e)=>{
+                        console.log('clicked')
+                        e.preventDefault()
+                        navigate(`/update/${id}`)
+                    }}>Update</button>
+                        <button className="text-xs text-white bg-red-500 border-red-800 border-[2px] px-2 py-1 rounded-2xl hover:opacity-80" onClick={async (e)=>{
+                            //@ts-ignore
+                            deletePost(id)
+                            console.log('Hello!')
+                            e.preventDefault()
+                        }}>Delete</button></> : null}
                 </div>
                 <div>
                     <h3 className='text-xl font-bold mb-2 md:text-2xl'>

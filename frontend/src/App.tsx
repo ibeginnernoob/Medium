@@ -7,6 +7,9 @@ import Blogs from './pages/Blogs'
 import Publish from './pages/Publish'
 import PrivateRoute from './components/PrivateRoute'
 import SavedBlogs from './pages/SavedBlogs'
+import ConfirmationModal from './components/ConfirmationModal'
+import UserPosts from './pages/UserPosts'
+import UpdateBlog from './pages/UpdateBlog'
 
 function App(){
   return(
@@ -27,6 +30,13 @@ function App(){
           <Route path='/saved' element={<PrivateRoute/>}>
             <Route index element={<SavedBlogs/>} />
           </Route>
+          <Route path='/user-blogs' element={<PrivateRoute/>}>
+            <Route index element={<UserPosts/>} />
+          </Route>
+          <Route path='/update/:id' element={<PrivateRoute/>}>
+            <Route index element={<UpdateBlog/>} />
+          </Route>
+          <Route path='/testing' element={<ConfirmationModal/>}/>
         </Routes>
       </BrowserRouter>
     </>

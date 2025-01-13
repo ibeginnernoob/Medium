@@ -1,6 +1,7 @@
 
 import getFormattedDate from "../format/getFormattedDate"
 import get_DP from "../format/getDPText"
+import { useNavigate } from "react-router"
 
 type props={
     authorName:string,
@@ -9,18 +10,33 @@ type props={
     description:string,
     id:string,
     saved:boolean | string,
-    savePost:(postId:string)=>void
+    savePost:(postId:string)=>void,
+    userBlog?:boolean,
+    deletePost?:(postId:string)=>void
 }
 
-function NoImageBlogCard({authorName,publishDate,title,description,id,saved,savePost}:props){
+function NoImageBlogCard({authorName,publishDate,title,description,id,saved,savePost,userBlog=false,deletePost}:props){
+    const navigate=useNavigate()
+
     return(
-        <div className="mx-10 flex flex-col items-center py-6 border-b-[1px] border-gray-200 cursor-pointer md:justify-between md:mx-24 sm:flex-row">
+        <div className="z-0 mx-10 flex flex-col items-center py-6 border-b-[1px] border-gray-200 cursor-pointer md:justify-between md:mx-24 sm:flex-row">
             <div className="w-full">
                 <div className='flex flex-row items-center mb-3'>
                     <div className='w-6 h-6 text-xs font-thin flex flex-row justify-center items-center rounded-full cursor-pointer hover:opacity-80 bg-black text-white'>{get_DP(authorName)}</div>
                     <p className='px-1.5 text-sm'>{authorName}</p>
                     <p>&#183;</p>
                     <p className='text-sm text-gray-400 px-1.5'>Posted on {getFormattedDate(publishDate)}</p>
+                    {userBlog ? (<div className="z-20 flex flex-row items-center"><button className="mx-5 text-xs text-white bg-cyan-500 border-blue-400 border-[2px] px-2 py-1 rounded-2xl hover:opacity-80" onClick={(e)=>{
+                        console.log('clicked')
+                        e.preventDefault()
+                        navigate(`/update/${id}`)
+                    }}>Update</button>
+                        <button className="text-xs text-white bg-red-500 border-red-800 border-[2px] px-2 py-1 rounded-2xl hover:opacity-80" onClick={async (e)=>{
+                            //@ts-ignore
+                            deletePost(id)
+                            console.log('Hello!')
+                            e.preventDefault()
+                        }}>Delete</button></div>) : null}
                 </div>
                 <div className='mb-10'>
                     <h3 className='text-xl font-bold mb-2 md:text-2xl'>
