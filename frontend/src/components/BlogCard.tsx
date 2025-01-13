@@ -15,14 +15,16 @@ type props={
     id:string,
     imageKey:string,
     saved:boolean | string,
-    savePost:(postId:string)=>void
+    savePost:(postId:string)=>void,
+    userBlog?:boolean,
+    deletePost?:(postId:string)=>void
 }
 
-function BlogCard({authorName,publishDate,title,description,id,imageKey,saved,savePost}:props){
+function BlogCard({authorName,publishDate,title,description,id,imageKey,saved,savePost,userBlog,deletePost}:props){
 
     if(imageKey==='NA'){
         return(
-            <Link to={`blog/${id}`}>
+            <Link to={`/blog/${id}`}>
                 <NoImageBlogCard 
                 authorName={authorName}
                 publishDate={publishDate}
@@ -31,6 +33,8 @@ function BlogCard({authorName,publishDate,title,description,id,imageKey,saved,sa
                 id={id}
                 saved={saved}
                 savePost={savePost}
+                userBlog={userBlog}
+                deletePost={deletePost}
                 />
             </Link>
         )
@@ -47,7 +51,7 @@ function BlogCard({authorName,publishDate,title,description,id,imageKey,saved,sa
         }
 
         return(
-            <Link to={`blog/${id}`}>
+            <Link to={`/blog/${id}`}>
                 <ImageBlogCard 
                 authorName={authorName}
                 publishDate={publishDate}
@@ -57,6 +61,8 @@ function BlogCard({authorName,publishDate,title,description,id,imageKey,saved,sa
                 imageURL={imageURL}
                 saved={saved}
                 savePost={savePost}
+                userBlog={userBlog}
+                deletePost={deletePost}
                 />
             </Link>
         )
