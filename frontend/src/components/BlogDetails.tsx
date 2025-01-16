@@ -19,15 +19,15 @@ function BlogDetails({title,description,publishDate,authorName,imageURL}:props){
                 <div className="w-full flex justify-center">
                     {imageURL!==null ? <img className="w-[400px] my-5" src={imageURL} alt="Image" /> : null}
                 </div>
-                <p className="mt-5">
+                <p className="mt-5 mb-10">
                     {description}
                 </p>
             </div>
             <div>
-                <p className="font-semibold">Author</p>
-                <div className="flex flex-row items-center mt-6">
+                <p className="text-base font-semibold lg:text-lg">Author</p>
+                <div className="flex flex-row items-center mt-3 lg:mt-6">
                     <div className='w-7 h-7 mr-3 text-sm flex flex-row justify-center items-center rounded-full cursor-pointer hover:opacity-80 bg-black text-white'>{get_DP(authorName)}</div>
-                    <h2 className="text-2xl font font-extrabold">{authorName}</h2>
+                    <h2 className="text-lg font font-extrabold lg:text-xl">{authorName}</h2>
                 </div>
             </div>
         </div>

@@ -1,7 +1,6 @@
 
 import DynamicTextarea from "./DynamicTextArea"
 
-import { useImage } from "../hooks/fetchAWS"
 import Spinner from "./Spinner"
 
 import { useEffect, useState } from "react"
