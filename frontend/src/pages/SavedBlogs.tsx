@@ -18,7 +18,7 @@ function SavedBlogs(){
     const changeSaveState=async (postId:string)=>{
         try{
             setLoadSave(true)
-            const response=await axios.post(`${BACKEND_URL}/api/v1/blog/save`,{
+            await axios.post(`${BACKEND_URL}/api/v1/blog/save`,{
                 postId:postId
             },{
                 headers:{

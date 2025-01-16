@@ -7,7 +7,6 @@ import Blogs from './pages/Blogs'
 import Publish from './pages/Publish'
 import PrivateRoute from './components/PrivateRoute'
 import SavedBlogs from './pages/SavedBlogs'
-import ConfirmationModal from './components/ConfirmationModal'
 import UserPosts from './pages/UserPosts'
 import UpdateBlog from './pages/UpdateBlog'
 
@@ -36,7 +35,6 @@ function App(){
           <Route path='/update/:id' element={<PrivateRoute/>}>
             <Route index element={<UpdateBlog/>} />
           </Route>
-          <Route path='/testing' element={<ConfirmationModal/>}/>
         </Routes>
       </BrowserRouter>
     </>
