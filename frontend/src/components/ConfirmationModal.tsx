@@ -1,11 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-export default function ConfirmationModal() {
-  const [open, setOpen] = useState(true)
+export default function ConfirmationModal({open,setOpen,deletePost,id}:{open:boolean,setOpen:any,deletePost:any,id:string}) {
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -27,12 +25,11 @@ export default function ConfirmationModal() {
                 </div>
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                   <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
-                    Deactivate account
+                    Delete Post
                   </DialogTitle>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                      Are you sure you want to deactivate your account? All of your data will be permanently removed.
-                      This action cannot be undone.
+                      Are you sure you want to delete your post. This action cannot be undone in the future! 
                     </p>
                   </div>
                 </div>
@@ -41,10 +38,14 @@ export default function ConfirmationModal() {
             <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
               <button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={async (e) => {
+                  deletePost(id)
+                  console.log('Hello!')
+                  e.preventDefault()
+                }}
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
               >
-                Deactivate
+                Delete
               </button>
               <button
                 type="button"
