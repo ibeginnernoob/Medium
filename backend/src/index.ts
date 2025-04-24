@@ -1,38 +1,38 @@
-import { Hono } from 'hono'
-import { cors } from 'hono/cors'
-import { Prisma, PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { Prisma, PrismaClient } from '@prisma/client/edge';
+import { withAccelerate } from '@prisma/extension-accelerate';
 
-import router from './routes'
+import router from './routes';
 
 const app = new Hono<{
-  Bindings:{
-    DATABASE_URL:string
-  },
-  Variables:{
-    prisma:any
-  }
-}>()
+    Bindings: {
+        DATABASE_URL: string;
+    };
+    Variables: {
+        prisma: any;
+    };
+}>();
 
-app.use('/api/*', cors())
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.use('/api/*', cors());
+app.get('/', c => {
+    return c.text('Hello Hono!');
+});
 
-app.use(async (c,next)=>{
-  try{
-    const prisma=new PrismaClient({
-      datasourceUrl:c.env.DATABASE_URL
-    }).$extends(withAccelerate())
-    
-    c.set("prisma",prisma)
+app.use(async (c, next) => {
+    try {
+        const prisma = new PrismaClient({
+            datasourceUrl: c.env.DATABASE_URL,
+        }).$extends(withAccelerate());
 
-    await next()
-  } catch(e){
-    return c.text("Internal server error!",500)
-  }
-})
+        c.set('prisma', prisma);
 
-app.route('/api/v1',router)
+        await next();
+    } catch (e) {
+        return c.text('Internal server error!', 500);
+    }
+});
 
-export default app
+app.route('/api/v1', router);
+
+export default app;

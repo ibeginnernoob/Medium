@@ -1,0 +1,15 @@
+# Ignore artifacts:
+build
+coverage
+.wrangler
+node_modules
+tsconfig.json
+README.md
+.prettierrc
+package-lock.json
+package.json
+tsconfig.node.json
+tsconfig.app.json
+index.html
+vite.config.ts
+postcss.config.js

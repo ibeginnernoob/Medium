@@ -1,54 +1,60 @@
-import { useState } from "react"
-import { useNavigate } from "react-router"
-import axios from "axios"
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
 
-import Auth from "../components/Auth"
-import Spinner from "../components/Spinner"
+import Auth from '../components/Auth';
+import Spinner from '../components/Spinner';
 
-import { BACKEND_URL } from "../config"
+import { BACKEND_URL } from '../config';
 
-function Signin(){
-    const navigate=useNavigate()
-    
-    const [loading,setLoading]=useState(false)
-    const [signinInputs,setSigninInputs]=useState({
-        email:"",
-        password:""
-    })
+function Signin() {
+    const navigate = useNavigate();
 
-    const sendSigninRequest=async ()=>{
-        try{
-            setLoading(true)
-            const response=await axios.post(`${BACKEND_URL}/api/v1/auth/signin`,signinInputs)
+    const [loading, setLoading] = useState(false);
+    const [signinInputs, setSigninInputs] = useState({
+        email: '',
+        password: '',
+    });
 
-            const token=response.data.token
-            if(!token){
-                throw new Error("Sign up failed!")
+    const sendSigninRequest = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.post(
+                `${BACKEND_URL}/api/v1/auth/signin`,
+                signinInputs
+            );
+
+            const token = response.data.token;
+            if (!token) {
+                throw new Error('Sign up failed!');
             }
-            localStorage.setItem("mediumToken",`Bearer ${token}`)
+            localStorage.setItem('mediumToken', `Bearer ${token}`);
 
-            setLoading(false)
-            navigate('/')
-            
-        } catch(e){
-            navigate(0)
-            alert("Sign in failed!")
+            setLoading(false);
+            navigate('/');
+        } catch (e) {
+            navigate(0);
+            alert('Sign in failed!');
         }
-    }
+    };
 
-    if(loading){
-        return(
+    if (loading) {
+        return (
             <div>
-                <Spinner/>
+                <Spinner />
             </div>
-        )
+        );
     }
 
-    return(
+    return (
         <div>
-            <Auth sendRequest={sendSigninRequest} type={"signin"} setFunc={setSigninInputs} />
+            <Auth
+                sendRequest={sendSigninRequest}
+                type={'signin'}
+                setFunc={setSigninInputs}
+            />
         </div>
-    )
+    );
 }
 
-export default Signin
+export default Signin;

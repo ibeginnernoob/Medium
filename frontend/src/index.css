@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-[contentEditable=true]:empty:not(:focus):before {
-    content:attr(data-placeholder);
-    color:gray
+[contentEditable='true']:empty:not(:focus):before {
+    content: attr(data-placeholder);
+    color: gray;
 }

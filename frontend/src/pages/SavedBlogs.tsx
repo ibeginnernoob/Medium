@@ -1,56 +1,58 @@
+import { useState } from 'react';
+import axios from 'axios';
+import { useSavedBlogs } from '../hooks/getSavedBlogs';
 
-import { useState } from "react"
-import axios from "axios"
-import { useSavedBlogs } from "../hooks/getSavedBlogs"
+import { BACKEND_URL } from '../config';
+import Spinner from '../components/Spinner';
+import AppBar from '../components/AppBar';
+import BlogCard from '../components/BlogCard';
 
-import { BACKEND_URL } from "../config"
-import Spinner from "../components/Spinner"
-import AppBar from "../components/AppBar"
-import BlogCard from "../components/BlogCard"
+function SavedBlogs() {
+    const [updateTrigger, setUpdateTrigger] = useState(0);
 
-function SavedBlogs(){
-    const [updateTrigger,setUpdateTrigger]=useState(0);
-    
-    const {loading,savedBlogs}=useSavedBlogs(updateTrigger)
+    const { loading, savedBlogs } = useSavedBlogs(updateTrigger);
 
-    const [loadSave,setLoadSave]=useState(false)
-    
-    const changeSaveState=async (postId:string)=>{
-        try{
-            setLoadSave(true)
-            await axios.post(`${BACKEND_URL}/api/v1/blog/save`,{
-                postId:postId
-            },{
-                headers:{
-                    'Authorization':localStorage.getItem('mediumToken')
+    const [loadSave, setLoadSave] = useState(false);
+
+    const changeSaveState = async (postId: string) => {
+        try {
+            setLoadSave(true);
+            await axios.post(
+                `${BACKEND_URL}/api/v1/blog/save`,
+                {
+                    postId: postId,
+                },
+                {
+                    headers: {
+                        Authorization: localStorage.getItem('mediumToken'),
+                    },
                 }
-            })
-            setLoadSave(false)
+            );
+            setLoadSave(false);
 
-            setUpdateTrigger(prev=>prev+1)
-        } catch(e){
-            console.log(e)
+            setUpdateTrigger(prev => prev + 1);
+        } catch (e) {
+            console.log(e);
         }
-    }
+    };
 
-    if(loading || loadSave){
-        return(
+    if (loading || loadSave) {
+        return (
             <div>
-                <Spinner/>
+                <Spinner />
             </div>
-        )
+        );
     }
 
-    return(
+    return (
         <>
-        <AppBar />
-        <div className="flex justify-center items-center mx-24 py-10 border-b-[1px] border-gray-200 text-5xl font-bold">
-            Your Saved Posts
-        </div>
-        <div className='mb-10'>
-            {
-                savedBlogs.map((postDetails,index)=>{
-                    return(
+            <AppBar />
+            <div className="flex justify-center items-center mx-24 py-10 border-b-[1px] border-gray-200 text-5xl font-bold">
+                Your Saved Posts
+            </div>
+            <div className="mb-10">
+                {savedBlogs.map((postDetails, index) => {
+                    return (
                         <BlogCard
                             key={index}
                             authorName={postDetails.post.author.name}
@@ -60,14 +62,13 @@ function SavedBlogs(){
                             id={postDetails.post.id}
                             imageKey={postDetails.post.blogImageKey}
                             savePost={changeSaveState}
-                            saved={"save page"}
+                            saved={'save page'}
                         />
-                    )
-                })
-            }
-        </div>
-    </>
-    )
+                    );
+                })}
+            </div>
+        </>
+    );
 }
 
-export default SavedBlogs
+export default SavedBlogs;

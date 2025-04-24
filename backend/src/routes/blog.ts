@@ -1,316 +1,320 @@
-import { Hono } from 'hono'
-import { createPostInput, updatePostInput } from '@adheil_gupta/medium-zod'
+import { Hono } from 'hono';
+import { createPostInput, updatePostInput } from '@adheil_gupta/medium-zod';
 
-const blogRouter=new Hono<{
-  Bindings:{
-    DATABASE_URL:string,
-    JWTSecret:string
-  },
-  Variables:{
-    prisma:any,
-    userId:string
-  }
-}>()
+const blogRouter = new Hono<{
+    Bindings: {
+        DATABASE_URL: string;
+        JWTSecret: string;
+    };
+    Variables: {
+        prisma: any;
+        userId: string;
+    };
+}>();
 
-blogRouter.post('/create',async (c)=>{
-  try{
-    const prisma=c.get('prisma')
-    const authorId=c.get('userId')
+blogRouter.post('/create', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const authorId = c.get('userId');
 
-    const body=await c.req.json()
+        const body = await c.req.json();
 
-    const {success}=createPostInput.safeParse(body)
-    if(!success){
-        return c.text("Invalid inputs!",403)
+        const { success } = createPostInput.safeParse(body);
+        if (!success) {
+            return c.text('Invalid inputs!', 403);
+        }
+
+        const DBResponse = await prisma.post.create({
+            data: {
+                title: body.title,
+                content: body.content,
+                blogImageKey: body.blogImageKey || 'NA',
+                authorId: authorId,
+            },
+        });
+
+        return c.text('Post created successfully!', 201);
+    } catch (e) {
+        console.log(e);
+        return c.text('Post creation failed', 411);
     }
-    
-    const DBResponse=await prisma.post.create({
-      data:{
-        title:body.title,
-        content:body.content,
-        blogImageKey:body.blogImageKey || "NA",
-        authorId:authorId
-      }
-    })
+});
 
-    return c.text("Post created successfully!",201)
+blogRouter.get('/saved', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const authorId = c.get('userId');
 
-  } catch(e){
-    console.log(e)
-    return c.text("Post creation failed",411)
-  }
-})
+        const savedBlogs = await prisma.usersSavedPostsData.findMany({
+            where: {
+                userId: authorId,
+            },
+            include: {
+                post: {
+                    include: {
+                        author: {
+                            select: {
+                                email: true,
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
 
-blogRouter.get('/saved',async (c)=>{
-  try{
-    const prisma=c.get('prisma')
-    const authorId=c.get('userId')
+        return c.json({ savedBlogs: savedBlogs }, 200);
+    } catch (e) {
+        console.log(e);
+        return c.text('Could not fetch saved posts!', 500);
+    }
+});
 
-    const savedBlogs=await prisma.usersSavedPostsData.findMany({
-      where:{
-        userId:authorId
-      },
-      include:{
-        post:{
-          include:{
-            author:{
-              select:{
-                email:true,
-                name:true
-              }
+blogRouter.post('/save', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const authorId = c.get('userId');
+
+        const body = await c.req.json();
+
+        const isSaved = await prisma.usersSavedPostsData.findFirst({
+            where: {
+                userId: authorId,
+                postId: body.postId,
+            },
+        });
+
+        if (isSaved) {
+            const DBResponse = await prisma.usersSavedPostsData.delete({
+                where: {
+                    postId_userId: {
+                        userId: authorId,
+                        postId: body.postId,
+                    },
+                },
+            });
+
+            return c.text('Post successfully unsaved!', 200);
+        } else {
+            const DBResponse = await prisma.usersSavedPostsData.create({
+                data: {
+                    userId: authorId,
+                    postId: body.postId,
+                },
+            });
+
+            return c.text('Post successfully saved!', 200);
+        }
+    } catch (e) {
+        console.log(e);
+        return c.text('Something went wrong!', 500);
+    }
+});
+
+blogRouter.get('/user-blogs', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const authorId = c.get('userId');
+
+        let userBlogs = await prisma.post.findMany({
+            where: {
+                authorId: authorId,
+            },
+            include: {
+                usersSaved: true,
+                author: {
+                    select: {
+                        email: true,
+                        name: true,
+                    },
+                },
+            },
+        });
+
+        userBlogs = userBlogs.map((blog: any) => {
+            const isSaved = blog.usersSaved.some(
+                (saveData: any) => (saveData.userId = authorId)
+            );
+            if (isSaved) {
+                return {
+                    ...blog,
+                    saved: true,
+                };
             }
-          }
-        }
-      }
-    })
+            return {
+                ...blog,
+                saved: false,
+            };
+        });
 
-    return c.json({savedBlogs:savedBlogs},200)
-  } catch(e){
-    console.log(e)
-    return c.text("Could not fetch saved posts!",500)
-  }
-})
-
-blogRouter.post('/save',async (c)=>{
-  try{
-    const prisma=c.get('prisma')
-    const authorId=c.get('userId')
-
-    const body=await c.req.json()
-
-    const isSaved=await prisma.usersSavedPostsData.findFirst({
-      where:{
-        userId:authorId,
-        postId:body.postId
-      }
-    })
-
-    if(isSaved){
-      const DBResponse=await prisma.usersSavedPostsData.delete({
-        where:{
-          postId_userId:{
-            userId:authorId,
-            postId:body.postId
-          }
-        }
-      })
-
-      return c.text('Post successfully unsaved!',200)
+        return c.json({ userBlogs: userBlogs }, 200);
+    } catch (e) {
+        console.log(e);
+        return c.text('Something went wrong!', 500);
     }
-    else{
-      const DBResponse=await prisma.usersSavedPostsData.create({
-        data:{
-          userId:authorId,
-          postId:body.postId
-        }
-      })
+});
 
-      return c.text('Post successfully saved!',200)
+blogRouter.get('/bulk', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const authorId = c.get('userId');
+
+        let posts = await prisma.post.findMany({
+            include: {
+                author: {
+                    select: {
+                        email: true,
+                        name: true,
+                    },
+                },
+                usersSaved: {
+                    select: {
+                        userId: true,
+                    },
+                },
+            },
+        });
+
+        posts = posts.map((post: any) => {
+            const isSavedByUser = post.usersSaved.some(
+                (savedData: any) => savedData.userId === authorId
+            );
+            if (isSavedByUser) {
+                return {
+                    ...post,
+                    saved: true,
+                };
+            }
+            return {
+                ...post,
+                saved: false,
+            };
+        });
+
+        return c.json(
+            {
+                posts: posts,
+            },
+            200
+        );
+    } catch (e) {
+        console.log(e);
+        c.text('Internal server error.', 500);
     }
-  } catch(e){
-    console.log(e)
-    return c.text("Something went wrong!",500)
-  }
-})
+});
 
-blogRouter.get('/user-blogs',async (c)=>{
-  try{
-    const prisma=c.get('prisma')
-    const authorId=c.get('userId')
+blogRouter.get('/:id', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const blogId = c.req.param('id');
 
-    let userBlogs=await prisma.post.findMany({
-      where:{
-        authorId:authorId
-      },
-      include:{
-        usersSaved:true,
-        author:{
-          select:{
-            email:true,
-            name:true
-          }
-        },
-      }
-    })
+        const post = await prisma.post.findUnique({
+            where: {
+                id: blogId,
+            },
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        email: true,
+                    },
+                },
+            },
+        });
 
-    userBlogs=userBlogs.map((blog:any)=>{
-      const isSaved=blog.usersSaved.some((saveData:any)=>saveData.userId=authorId)
-      if(isSaved){
-        return {
-          ...blog,
-          saved:true
-        }
-      }
-      return {
-        ...blog,
-        saved:false
-      }
-    })
-
-    return c.json({userBlogs:userBlogs},200)
-  } catch(e){
-    console.log(e)
-    return c.text('Something went wrong!',500)
-  }
-})
-
-blogRouter.get('/bulk',async (c)=>{
-  try{
-    const prisma=c.get("prisma")
-    const authorId=c.get('userId')
-
-    
-    let posts=await prisma.post.findMany({
-      include:{
-        author:{
-          select:{
-            email:true,
-            name:true
-          }
-        },
-        usersSaved:{
-          select:{
-            userId:true
-          }
-        }
-      }
-    })
-
-    posts=posts.map((post:any)=>{
-      const isSavedByUser=post.usersSaved.some((savedData:any)=>savedData.userId===authorId)
-      if(isSavedByUser){
-        return {
-          ...post,
-          saved:true
-        }
-      }
-      return {
-        ...post,
-        saved:false
-      }
-    })
-
-    return c.json({
-      posts:posts
-    },200)
-  } catch(e){
-    console.log(e)
-    c.text("Internal server error.",500)
-  }
-})
-
-blogRouter.get('/:id',async (c)=>{
-  try{
-    const prisma=c.get("prisma")
-    const blogId=c.req.param("id")
-
-    const post=await prisma.post.findUnique({
-      where:{
-        id:blogId
-      },
-      include:{
-        author:{
-          select:{
-            name:true,
-            email:true
-          }
-        }
-      }
-    })
-
-    return c.json({
-      post:post
-    },200)
-  } catch(e){
-    c.text("Internal server error.",500)
-  }
-})
-
-blogRouter.put('/update/:id',async (c) => {
-  try{
-    const prisma=c.get('prisma')
-    const body=await c.req.json()
-    const blogId=c.req.param("id")
-
-    // work on zod validation
-
-    // const {success}=updatePostInput.safeParse(body)
-    // if(!success){
-    //     return c.text("Invalid inputs!",403)
-    // }
-
-    if(!body.blogImageKey){
-      const DBResponse=await prisma.post.update({
-        where:{
-          id:blogId
-        },
-        data:{
-          title:body.title,
-          content:body.content
-        }
-      })
+        return c.json(
+            {
+                post: post,
+            },
+            200
+        );
+    } catch (e) {
+        c.text('Internal server error.', 500);
     }
-    else{
-      const DBResponse=await prisma.post.update({
-        where:{
-          id:blogId
-        },
-        data:{
-          title:body.title,
-          content:body.content,
-          blogImageKey:body.blogImageKey || "NA",
+});
+
+blogRouter.put('/update/:id', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const body = await c.req.json();
+        const blogId = c.req.param('id');
+
+        // work on zod validation
+
+        // const {success}=updatePostInput.safeParse(body)
+        // if(!success){
+        //     return c.text("Invalid inputs!",403)
+        // }
+
+        if (!body.blogImageKey) {
+            const DBResponse = await prisma.post.update({
+                where: {
+                    id: blogId,
+                },
+                data: {
+                    title: body.title,
+                    content: body.content,
+                },
+            });
+        } else {
+            const DBResponse = await prisma.post.update({
+                where: {
+                    id: blogId,
+                },
+                data: {
+                    title: body.title,
+                    content: body.content,
+                    blogImageKey: body.blogImageKey || 'NA',
+                },
+            });
         }
-      })
+
+        return c.text('Post updated successfully!', 201);
+    } catch (e) {
+        return c.text('Post creation failed', 411);
     }
+});
 
-    return c.text("Post updated successfully!",201)
+blogRouter.delete('/delete/:id', async c => {
+    try {
+        const prisma = c.get('prisma');
+        const blogId = c.req.param('id');
 
-  } catch(e){
-    return c.text("Post creation failed",411)
-  }
-})
+        console.log('delete!');
 
-blogRouter.delete('/delete/:id',async (c)=>{
-  try{
-    const prisma=c.get("prisma")
-    const blogId=c.req.param("id")
+        const response = await prisma.$transaction(async (tx: any) => {
+            await tx.usersSavedPostsData.deleteMany({
+                where: {
+                    postId: blogId,
+                },
+            });
 
-    console.log('delete!')
+            await tx.post.delete({
+                where: {
+                    id: blogId,
+                },
+            });
 
-    const response=await prisma.$transaction(async (tx:any)=>{
+            return 'Successfully deleted!';
+        });
 
-      await tx.usersSavedPostsData.deleteMany({
-        where:{
-          postId:blogId
-        }
-      })
+        return c.text(response, 200);
+    } catch (e) {
+        console.log(e);
+        return c.text('Post deletion failed', 411);
+    }
+});
 
-      await tx.post.delete({
-        where:{
-          id:blogId
-        }
-      })
+blogRouter.delete('/bulk', async c => {
+    try {
+        const prisma = c.get('prisma');
 
-      return 'Successfully deleted!'
-    })
+        const DBResponse = await prisma.post.deleteMany({});
 
-    return c.text(response,200)
-  } catch(e){
-    console.log(e)
-    return c.text("Post deletion failed",411)
-  }
-})
+        return c.text('Posts deleted successfully!', 411);
+    } catch (e) {
+        return c.text('Post deletion failed!', 411);
+    }
+});
 
-blogRouter.delete('/bulk',async (c)=>{
-  try{
-    const prisma=c.get("prisma")
-
-    const DBResponse=await prisma.post.deleteMany({})
-
-    return c.text("Posts deleted successfully!",411)
-  } catch(e){
-    return c.text("Post deletion failed!",411)
-  }
-})
-
-export default blogRouter
+export default blogRouter;

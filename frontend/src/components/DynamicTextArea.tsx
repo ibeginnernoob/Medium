@@ -1,42 +1,47 @@
 import React, { useRef, useEffect } from 'react';
 
-const DynamicTextarea = ({ value, placeholder, className, onChange }: {
-  value?: string;
-  placeholder?: string;
-  className?: string;
-  onChange?: (e:any) => void;
+const DynamicTextarea = ({
+    value,
+    placeholder,
+    className,
+    onChange,
+}: {
+    value?: string;
+    placeholder?: string;
+    className?: string;
+    onChange?: (e: any) => void;
 }) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const adjustHeight = () => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = 'auto';
-      textarea.style.height = `${textarea.scrollHeight}px`;
-    }
-  };
+    const adjustHeight = () => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = `${textarea.scrollHeight}px`;
+        }
+    };
 
-  useEffect(() => {
-    adjustHeight();
-  }, []);
+    useEffect(() => {
+        adjustHeight();
+    }, []);
 
-  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    adjustHeight();
-    if (onChange) {
-      onChange(e);
-    }
-  };
+    const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        adjustHeight();
+        if (onChange) {
+            onChange(e);
+        }
+    };
 
-  return (
-    <textarea
-    value={value}
-      ref={textareaRef}
-      placeholder={placeholder}
-      className={`min-h-[40px] w-full resize-none overflow-hidden ${className}`}
-      onChange={handleInput}
-      rows={1}
-    />
-  );
+    return (
+        <textarea
+            value={value}
+            ref={textareaRef}
+            placeholder={placeholder}
+            className={`min-h-[40px] w-full resize-none overflow-hidden ${className}`}
+            onChange={handleInput}
+            rows={1}
+        />
+    );
 };
 
 export default DynamicTextarea;

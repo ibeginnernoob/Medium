@@ -15,9 +15,9 @@ Important: this application uses various AWS services and there are costs associ
 
 ## Requirements
 
-* AWS CLI already configured with Administrator permission
-* [AWS SAM CLI installed](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) - minimum version 0.48.
-* [NodeJS 16.x installed](https://nodejs.org/en/download/)
+- AWS CLI already configured with Administrator permission
+- [AWS SAM CLI installed](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html) - minimum version 0.48.
+- [NodeJS 16.x installed](https://nodejs.org/en/download/)
 
 ## Installation Instructions
 
@@ -30,11 +30,12 @@ Important: this application uses various AWS services and there are costs associ
 There are two SAM templates available - one provides an open API, the other uses an authorizer. From the command line, deploy the chosen SAM template:
 
 ```
-cd .. 
+cd ..
 sam deploy --guided
 ```
 
 When prompted for parameters, enter:
+
 - Stack Name: s3Uploader
 - AWS Region: your preferred AWS Region (e.g. us-east-1)
 - Answer 'No' to `UploadRequestFunction may not have authorization defined, Is this okay?` question, and accept others defaults.
@@ -44,10 +45,9 @@ This takes several minutes to deploy. At the end of the deployment, note the out
 - The APIendpoint value is important - it looks like https://ab123345677.execute-api.us-west-2.amazonaws.com.
 - **The upload URL is your endpoint** with the /uploads route added - for example: https://ab123345677.execute-api.us-west-2.amazonaws.com/uploads.
 
-
 ### Testing with the frontend application
 
-The frontend code is saved in the `frontend` subdirectory. 
+The frontend code is saved in the `frontend` subdirectory.
 
 1. Before running, you need to set the API Gateway endpoint from the backend deployment on line 29 in the `index.html` file.
 

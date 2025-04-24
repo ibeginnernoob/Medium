@@ -1,0 +1,5 @@
+throttling and lazy loading
+
+better animations
+
+light and dark mode
