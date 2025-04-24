@@ -4,7 +4,7 @@ import { Avatar } from '@chakra-ui/react';
 
 export default function ThickBlog() {
 	return (
-		<div className="border-[1px] border-gray-600 rounded-xl w-[32rem]">
+		<div className="border-[1px] border-gray-600 rounded-xl w-[34rem]">
 			<img
 				src={BlogThumbnail}
 				alt="Blog Thumbnail"
