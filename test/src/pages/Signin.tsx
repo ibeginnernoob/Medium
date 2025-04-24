@@ -11,7 +11,7 @@ import { LuMail, LuLockKeyhole } from 'react-icons/lu';
 
 export default function Signin() {
     return (
-        <div className="min-h-screen w-screen bg-black p-0 m-0 flex flex-col items-center justify-center">
+        <div className="min-h-screen w-screen bg-[#1A1B26] p-0 m-0 flex flex-col items-center justify-center">
             <div className="flex flex-col items-center w-[25rem] px-8 py-5 border-[1px] border-gray-600">
                 <div className="text-left w-full">
                     <h2 className="font-roboto text-2xl font-semibold">
@@ -59,6 +59,7 @@ export default function Signin() {
                                 alignSelf: 'center',
                                 fontSize: '14px',
                                 cursor: 'pointer',
+								color: '#61AFEF'
                             }}
                         >
                             Forgot Password
@@ -115,7 +116,7 @@ export default function Signin() {
                         Don't have an account yet?{' '}
                         <Link
                             variant="body2"
-                            sx={{ alignSelf: 'center', cursor: 'pointer' }}
+                            sx={{ alignSelf: 'center', cursor: 'pointer', color: '#61AFEF' }}
                         >
                             Sign up
                         </Link>
