@@ -11,10 +11,7 @@ function App() {
     return (
         <div>
 			<Navbar />
-			<CommentsDrawer />
-			<div className='mt-40'>
-				<SimpleTextEditor />
-			</div>
+			<CommentsDrawer />			
         </div>
     );
 }

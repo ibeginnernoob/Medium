@@ -5,9 +5,10 @@ import {
     Input,
     Portal,
     Stack,
-	Separator
+    Separator,
+    Menu,
 } from '@chakra-ui/react';
-
+import SimpleTextEditor from './simpleTextEditor';
 
 export default function CommentsDrawer() {
     return (
@@ -22,33 +23,52 @@ export default function CommentsDrawer() {
                     <Drawer.Backdrop />
                     <Drawer.Positioner>
                         <Drawer.Content>
-                            <div className='flex flex-row'>
-								<Drawer.Header className='m-0 w-full'>
-									<Drawer.Title className='text-xl font-roboto w-[10rem] font-medium'>{'Responses (7)'}</Drawer.Title>
-								</Drawer.Header>
-								<Drawer.CloseTrigger asChild>
-									<CloseButton size="2xl" className='mt-[-0.3rem]' />
-								</Drawer.CloseTrigger>
-							</div>
-							<Separator className='mx-5 border-white border-[0.25px]' />
-                            <Drawer.Body>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua.
-                                </p>
-                                <Stack mt="5">
-                                    <Input
-                                        defaultValue="Naruto"
-                                        placeholder="First name"
+                            <div className="flex flex-row">
+                                <Drawer.Header className="m-0 w-full">
+                                    <Drawer.Title className="text-xl font-roboto w-[10rem] font-medium">
+                                        {'Responses (7)'}
+                                    </Drawer.Title>
+                                </Drawer.Header>
+                                <Drawer.CloseTrigger asChild>
+                                    <CloseButton
+                                        size="2xl"
+                                        className="mt-[-0.3rem]"
                                     />
-                                    <Input placeholder="Email" />
-                                </Stack>
+                                </Drawer.CloseTrigger>
+                            </div>
+                            <Separator className="mx-5 border-white border-[0.25px]" />
+                            <Drawer.Body className="flex flex-col gap-2 mt-3 px-6 w-full">
+                                <SimpleTextEditor />
+                                <Menu.Root>
+                                    <Menu.Trigger asChild>
+                                        <Button variant="outline" size="sm">
+                                            Open
+                                        </Button>
+                                    </Menu.Trigger>
+                                    <Portal>
+                                        <Menu.Positioner>
+                                            <Menu.Content>
+                                                <Menu.Item value="new-txt">
+                                                    New Text File
+                                                </Menu.Item>
+                                                <Menu.Item value="new-file">
+                                                    New File...
+                                                </Menu.Item>
+                                                <Menu.Item value="new-win">
+                                                    New Window
+                                                </Menu.Item>
+                                                <Menu.Item value="open-file">
+                                                    Open File...
+                                                </Menu.Item>
+                                                <Menu.Item value="export">
+                                                    Export
+                                                </Menu.Item>
+                                            </Menu.Content>
+                                        </Menu.Positioner>
+                                    </Portal>
+                                </Menu.Root>
                             </Drawer.Body>
-                            <Drawer.Footer>
-                                <Button variant="outline">Cancel</Button>
-                                <Button>Save</Button>
-                            </Drawer.Footer>                            
+                            <Drawer.Footer></Drawer.Footer>
                         </Drawer.Content>
                     </Drawer.Positioner>
                 </Portal>
