@@ -12,7 +12,7 @@ export default function SimpleTextEditor() {
                 placeholder="What are your thoughts?"
                 value={text}
                 onChange={e => setText(e.target.value)}
-                className="min-h-[10rem] bg-gray-100 text-black resize-none rounded-t-lg rounded-b-none border-0 text-sm font-roboto pt-4 placeholder:text-gray-400"
+                className="min-h-[10rem] bg-gray-100 text-black resize-none rounded-t-lg rounded-b-none border-0 text-sm font-roboto pt-4 px-3 placeholder:text-gray-400"
             />
             <div className='flex flex-row justify-between items-center w-full px-3 pt-2 pb-4'>
                 <div className="flex flex-row items-center gap-2">

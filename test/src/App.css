@@ -48,3 +48,11 @@
 .likes-amount.liked {
 	color: red;
 }
+
+#comDrawerMenu {
+	transition: transform 0.2s ease;
+}
+
+#comDrawerMenu:hover {
+	transform: scale(1.01);
+}
