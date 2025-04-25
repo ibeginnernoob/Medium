@@ -3,3 +3,8 @@ throttling and lazy loading
 better animations
 
 light and dark mode
+
+
+spotted error
+
+heart button - tooltip does not work

@@ -8,7 +8,7 @@ import Blogs from './pages/RandomBlogs.tsx';
 function App() {
     return (
         <div>
-			<Blogs />
+			
         </div>
     );
 }

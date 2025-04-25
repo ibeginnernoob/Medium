@@ -1,27 +1,49 @@
-import { useState } from "react";
-import { Avatar } from "@chakra-ui/react"
 import BlogThumbnail from '@/../public/test-thumbnail2.png'
+import { AnimatedHeart, Comments, Remove, BookMark, Options, AvatarIcon } from "@/components/ui/icons";
 
-export default function BlogCard() {
-	const [isClick, setClick] = useState(false)
-
+export default function BlogCard({ likeNumber = '0', commentNumber = '0', authorName, title, description, date } : {
+	likeNumber: string,
+	commentNumber: string,
+	authorName: string,
+	title: string,
+	description: string,
+	date: string
+}) {
 	return (
-		<div className="flex flex-row items-center w-fit gap-3 cursor-pointer border-[1px] border-red-100">
+		<div className="flex flex-row items-center w-fit gap-5 pt-8 pb-4 cursor-pointer border-b-[1px] border-[#3F3F46]">
 			<div className="flex flex-col gap-2 w-[35rem]">
 				<div className="flex flex-row items-center gap-3">
-					<Avatar.Root backgroundColor={'green.600'} className="h-5 w-5" size={'xs'} variant={'solid'}>
-						<Avatar.Fallback className="text-[10px] text-white" name="Adheil" />
-						<Avatar.Image />
-					</Avatar.Root>
-					<p className="text-xs text-white font-roboto">Adheil Gupta</p>
+					<AvatarIcon
+						name='Adheil'
+						bgColor='green.600'
+						styles="h-5 w-5"
+						textStyles=''
+						variant="solid"
+					/>
+					<p className="text-xs text-white font-roboto font-light">{authorName}</p>
 				</div>
-				<h1 className="font-roboto text-2xl font-semibold">Revolutionizing software development with cutting-edge tools</h1>
-				<h2 className="font-roboto text-[15px] text-gray-100 font-light">Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software.</h2>
-				<div className="flex flex-row">
-					<p className="text-[13px]">Dec 21, 2024</p>
+				<h1 className="font-roboto text-2xl font-semibold">{title}</h1>
+				<h2 className="font-roboto text-[15px] text-gray-100">{description}</h2>
+				<div className="w-full flex flex-row items-center justify-between">
+					<div className="flex flex-row items-center gap-6">
+						<p className="text-[12px] font-light">{date}</p>
+						<div className="flex flex-row items-center">
+							<AnimatedHeart number={likeNumber} />
+							<p className="text-[12px] font-light ml-[-0.3rem]">12.2k</p>
+						</div>
+						<div className="flex flex-row items-center gap-3">
+							<Comments number={commentNumber} />
+							<p className="text-[12px] font-light ml-[-0.3rem]">256</p>
+						</div>
+					</div>
+					<div className="flex flex-row items-center gap-8">
+						<Remove />
+						<BookMark />
+						<Options />
+					</div>
 				</div>
 			</div>
-			<img src={BlogThumbnail} alt="blog thumbnail" />
+			<img src={BlogThumbnail} alt="Blog Thumbnail" />			
 		</div>
 	)
 }
