@@ -50,7 +50,7 @@ export function Options() {
 	)
 }
 
-export function AvatarIcon({ bgColor, styles, size, variant } : {
+export function AvatarIcon({ bgColor, styles, size, variant, textStyles, name } : {
 	bgColor?: string,
 	styles?: string,
 	size?: 'xs' | 'sm' | 'md' | 'lg',
@@ -59,8 +59,8 @@ export function AvatarIcon({ bgColor, styles, size, variant } : {
 	name: string
 }) {
 	return (
-		<Avatar.Root backgroundColor={bgColor} className={`${styles}`} size={size} variant={variant}>
-			<Avatar.Fallback className="text-[10px] text-white" name="Adheil" />
+		<Avatar.Root backgroundColor={bgColor} className={`${styles} flex justify-center items-center`} size={size} variant={variant}>
+			<Avatar.Fallback className={`text-[10px] text-white ${textStyles}`} name={name} />
 			<Avatar.Image />
 		</Avatar.Root>
 	)

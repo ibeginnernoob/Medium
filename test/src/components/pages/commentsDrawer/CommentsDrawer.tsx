@@ -7,7 +7,7 @@ import {
     Stack,
     Separator,
 } from '@chakra-ui/react';
-import SimpleTextEditor from '../../simpleTextEditor';
+import SimpleTextEditor from '../../SimpleTextEditor';
 import MenuComponent from './DialogMenu';
 import CommentCard from './CommentCard';
 
