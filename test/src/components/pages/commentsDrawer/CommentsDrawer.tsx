@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import {
-	Button,
+    Button,
     CloseButton,
     Drawer,
     Portal,
@@ -12,7 +12,7 @@ import MenuComponent from './DialogMenu';
 import CommentCard from './CommentCard';
 
 export default function CommentsDrawer() {
-	const drawerContentRef = useRef(null)
+    const drawerContentRef = useRef(null);
     return (
         <div>
             <Drawer.Root size={'sm'}>
@@ -39,11 +39,14 @@ export default function CommentsDrawer() {
                                 </Drawer.CloseTrigger>
                             </div>
                             <Separator className="mx-5 border-white opacity-15 border-[0.25px]" />
-                            <Drawer.Body ref={drawerContentRef} className="flex flex-col gap-2 mt-3 px-6 w-full">
+                            <Drawer.Body
+                                ref={drawerContentRef}
+                                className="flex flex-col gap-2 mt-3 px-6 w-full"
+                            >
                                 <SimpleTextEditor />
-								<MenuComponent />                                
-								<Separator className="border-white opacity-15 border-[0.25px]" />
-								<CommentCard />
+                                <MenuComponent />
+                                <Separator className="border-white opacity-15 border-[0.25px]" />
+                                <CommentCard />
                             </Drawer.Body>
                             <Drawer.Footer></Drawer.Footer>
                         </Drawer.Content>
