@@ -8,11 +8,28 @@ import CommentsDrawer from './components/pages/commentsDrawer/CommentsDrawer.tsx
 import SimpleTextEditor from './components/SimpleTextEditor.tsx';
 import MenuComponent from './components/pages/commentsDrawer/DialogMenu.tsx';
 
+import {
+    AnimatePresence,
+    motion,
+    useScroll,
+    useMotionValueEvent,
+} from 'motion/react';
+
 function App() {
+	const { scrollY } = useScroll()
+	const [scrollDirection, setScrollDirection] = useState("up")
+	
+	useMotionValueEvent(scrollY, 'change', current => {
+        const diff = current - scrollY.getPrevious()!
+        setScrollDirection(diff > 0 ? 'down' : 'up');
+    });
+
     return (
-        <div>						
-			<Navbar />
-        </div>
+        <div>
+			<AnimatePresence>
+				{scrollDirection === 'up' && <Navbar />}
+			</AnimatePresence>
+		</div>
     );
 }
 
