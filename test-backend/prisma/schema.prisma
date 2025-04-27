@@ -4,21 +4,22 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// client is generated in the specified folder, from which the client can be imported from to send query to the database
+
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../src/generated/prisma"
-  previewFeatures = ["driverAdapters"]
+    provider = "prisma-client-js"
+    output   = "../src/generated/prisma"
 }
 
 model User {
-  id         String  @id @default(uuid())
-  firebaseID String  @unique
-  email      String  @unique
-  username   String?
+    id         String @id @default(uuid())
+    firebaseID String @unique
+    email      String @unique
+    username   String?
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
 }

@@ -46,12 +46,14 @@ const SIGNIN_MUTATION = gql`
         $email: String!
         $username: String!
     ) {
-        createUser(firebaseID: $firebaseID, email: $email, username: $username)
+        createUser(firebaseID: $firebaseID, email: $email, username: $username) {
+			msg
+		}
     }
 `;
 
 export default function App() {
-	const [mutateFunction, { data, loading, error }] = useMutation(SIGNIN_MUTATION);
+	const [mutateFunction] = useMutation(SIGNIN_MUTATION);
 
     const Signin = async () => {
         const provider = new GoogleAuthProvider();
@@ -65,17 +67,26 @@ export default function App() {
             const user = result.user;
             const idToken = user.getIdToken();
             console.log(token, user, idToken);
+			const response = await mutateFunction({
+				variables: {
+					firebaseID: '1',
+					email: 'adheilgupta@gmail.com',
+					username: 'Adheil GUpta'
+				}
+			})
+			console.log(response)
         } catch (error: any) {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            const email = error.customData.email;
-            const credential = GoogleAuthProvider.credentialFromError(error);
+            // const errorCode = error.code;
+            // const errorMessage = error.message;
+            // const email = error.customData.email;
+            // const credential = GoogleAuthProvider.credentialFromError(error);
+			console.log(error)
         }
     };
 
     return (
         <button
-            onClick={() => Signin()}
+            onClick={async () => await Signin()}
             className="bg-black text-white border border-white"
         >
             Sign in with google

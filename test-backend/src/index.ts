@@ -1,7 +1,12 @@
-import {app} from '@getcronit/pylon'
-import db from '../prisma/src/index'
+import { app } from '@getcronit/pylon'
+import { PrismaClient } from './generated/prisma/edge.js'
+import { withAccelerate } from '@prisma/extension-accelerate'
+import { env } from 'process'
 
 const createUser = async (firebaseID: string, email: string, username: string) => {
+	const db = new PrismaClient({
+		datasourceUrl: env.DATABASE_URL
+	}).$extends(withAccelerate())
 	try {
 		const res = await db.user.create({
 			data: {
@@ -9,11 +14,19 @@ const createUser = async (firebaseID: string, email: string, username: string) =
 				email: email,
 				firebaseID: firebaseID
 			}
-		})
-		return "User generation successful"
+		})				
+		return {
+			msg: "User creation successful",
+			user: {
+				id: res.id,
+				email: res.email
+			}
+		}
 	} catch (e: any) {
 		console.log(e)
-		return "User creation failed"
+		return {
+			msg: "User creation failed"
+		}
 	}
 }
 

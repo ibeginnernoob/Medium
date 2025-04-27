@@ -140,14 +140,12 @@ const config = {
         "native": true
       }
     ],
-    "previewFeatures": [
-      "driverAdapters"
-    ],
+    "previewFeatures": [],
     "sourceFilePath": "/Users/abhishekgupta/Desktop/coding/Medium/test-backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
+    "rootEnvPath": "../../../.env",
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -166,8 +164,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../src/generated/prisma\"\n  previewFeatures = [\"driverAdapters\"]\n}\n\nmodel User {\n  id         String  @id @default(uuid())\n  firebaseID String  @unique\n  email      String  @unique\n  username   String?\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n",
-  "inlineSchemaHash": "b34d725792d7695f787b6b174da34488cc0fcf384910887b90306f86dab8ce0c",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\n// client is generated in the specified folder, from which the client can be imported from to send query to the database\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\nmodel User {\n  id         String  @id @default(uuid())\n  firebaseID String  @unique\n  email      String  @unique\n  username   String?\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n",
+  "inlineSchemaHash": "02644ee82e6d65bf90a36d92efdea854c7fa6b77abb967e20b9800d2016b826a",
   "copyEngine": false
 }
 
