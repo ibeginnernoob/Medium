@@ -4,7 +4,7 @@ light and dark mode
 pagination
 
 
-spotted error
+spotted error :-
 
 heart button - tooltip does not work
-comments drawer cancel button weight decreases
+comments drawer cancel button weight decrease

@@ -8,14 +8,19 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@getcronit/pylon": "^2.0.0"
+    "@getcronit/pylon": "^2.0.0",
+    "@prisma/client": "^6.6.0",
+    "@prisma/extension-accelerate": "^1.3.0"
   },
   "devDependencies": {
-    "@getcronit/pylon-dev": "^1.0.0",
     "@cloudflare/vitest-pool-workers": "^0.4.5",
     "@cloudflare/workers-types": "^4.20240903.0",
-    "typescript": "^5.5.2",
-    "wrangler": "^3.60.3"
+    "@getcronit/pylon-dev": "^1.0.0",
+    "@types/node": "^22.15.2",
+    "prisma": "^6.6.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.13.2"
   },
   "repository": {
     "type": "git",
