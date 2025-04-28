@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Button } from './lovableRequirements/button';
+import { Button } from './pages/blog/lovableRequirements/button';
 import { Bold, Italic } from 'lucide-react';
-import { Textarea } from './lovableRequirements/textarea';
+import { Textarea } from './pages/blog/lovableRequirements/textarea';
 
 export default function SimpleTextEditor() {
     const [text, setText] = useState('This does not work!');

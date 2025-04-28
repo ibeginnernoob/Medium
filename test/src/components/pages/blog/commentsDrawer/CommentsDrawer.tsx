@@ -7,9 +7,9 @@ import {
     Stack,
     Separator,
 } from '@chakra-ui/react';
-import SimpleTextEditor from '../../SimpleTextEditor';
 import MenuComponent from './DialogMenu';
 import CommentCard from './CommentCard';
+import SimpleTextEditor from '../../../SimpleTextEditor';
 
 export default function CommentsDrawer() {
     const drawerContentRef = useRef(null);

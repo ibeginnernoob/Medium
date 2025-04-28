@@ -6,11 +6,13 @@ import { InputGroup, Input } from '@chakra-ui/react';
 import { LuSearch } from 'react-icons/lu';
 import { IoCreateOutline } from 'react-icons/io5';
 import { Tooltip } from '@mui/material';
+import SigninDialog from '@/components/pages/signin/SigninDialog';
 
 import { useState } from 'react';
-import { motion, useScroll, useMotionValueEvent } from 'motion/react';
+import { motion } from 'motion/react';
 
 export default function NavBar() {
+	const [isOpen, setOpenCard] = useState(false)
     return (
         <motion.nav
             className="navbar"
@@ -53,6 +55,7 @@ export default function NavBar() {
                     </InputGroup>
                 </div>
             </div>
+			{/* for signed in users */}
             {/* <div className="flex flex-row items-center gap-6">
                 <Tooltip title="Write" arrow>
                     <IoCreateOutline size={20} className="cursor-pointer" />
@@ -65,9 +68,14 @@ export default function NavBar() {
                     textStyles="text-sm"
                 />
             </div> */}
-            <InteractiveHoverButton className="text-xs bg-rgba(0, 0, 0, 0.8) text-white py-1.5 px-0 border-gray-600 w-20 rounded-md">
+			{/* for signed out users */}
+            <InteractiveHoverButton
+				className="text-xs bg-rgba(0, 0, 0, 0.8) text-white py-1.5 px-0 border-gray-600 w-20 rounded-md"
+				onClick={() => setOpenCard(true)}
+			>
                 Sign In
             </InteractiveHoverButton>
+			<SigninDialog open={isOpen} setOpen={setOpenCard} />
         </motion.nav>
     );
 }

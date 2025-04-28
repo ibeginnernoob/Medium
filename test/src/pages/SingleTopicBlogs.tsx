@@ -1,5 +1,5 @@
-import ThickBlog from '@/components/pages/blogs/ThickBlog';
-import ThinBlog from '@/components/pages/blogs/ThinBlog';
+import ThickBlog from '@/components/pages/topicSpecificBlogs/ThickBlog';
+import ThinBlog from '@/components/pages/topicSpecificBlogs/ThinBlog';
 
 export default function Blogs() {
     return (

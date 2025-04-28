@@ -10,7 +10,11 @@ app.use('/graphql', async (ctx, next) => {
 })
 
 export const graphql = {
-    Query: {},
+    Query: {
+        hello: () => {
+            return 'Hello, world!';
+        },
+    },
     Mutation: {
         createUser
     },

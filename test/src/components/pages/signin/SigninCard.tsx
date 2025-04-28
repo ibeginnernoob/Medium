@@ -12,6 +12,10 @@ import { LuMail, LuLockKeyhole } from 'react-icons/lu';
 export default function SigninCard({ ref } : {
 	ref: React.RefObject<HTMLInputElement | null>
 }) {
+	const [userDetails, setUserDetails] = useState({
+		email: '',
+		password: ''
+	})
     return (
         <div className="flex flex-col items-center w-[25rem] px-8 py-5 border-[1px] border-gray-600">
             <div className="text-left w-full">
@@ -21,6 +25,14 @@ export default function SigninCard({ ref } : {
             <div className="w-full">
                 <InputGroup className="my-2" startElement={<LuMail />}>
                     <Input
+						onChange={(e) => {
+							setUserDetails(prevDetails => {
+								return {
+									...prevDetails,
+									email: e.target.value	
+								}
+							})
+						}}
 						ref={ref}
                         placeholder="Email"
                         className="border-[1px] border-gray-500 text-sm"
@@ -34,6 +46,14 @@ export default function SigninCard({ ref } : {
                         startElement={<LuLockKeyhole />}
                     >
                         <PasswordInput
+							onChange={(e) => {
+								setUserDetails(prevDetails => {
+									return {
+										...prevDetails,
+										password: e.target.value	
+									}
+								})
+							}}
                             placeholder="Password"
                             className="border-[1px] border-gray-500 text-sm"
                             size={'sm'}
