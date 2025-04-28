@@ -53,7 +53,7 @@ const SIGNIN_MUTATION = gql`
 `;
 
 export default function App() {
-	const [mutateFunction] = useMutation(SIGNIN_MUTATION);
+	const [mutateFunction, { data, loading , error }] = useMutation(SIGNIN_MUTATION);
 
     const Signin = async () => {
         const provider = new GoogleAuthProvider();
@@ -67,14 +67,13 @@ export default function App() {
             const user = result.user;
             const idToken = user.getIdToken();
             console.log(token, user, idToken);
-			const response = await mutateFunction({
+			await mutateFunction({
 				variables: {
 					firebaseID: '1',
 					email: 'adheilgupta@gmail.com',
 					username: 'Adheil GUpta'
 				}
-			})
-			console.log(response)
+			})			
         } catch (error: any) {
             // const errorCode = error.code;
             // const errorMessage = error.message;

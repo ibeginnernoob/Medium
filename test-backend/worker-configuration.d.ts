@@ -3,7 +3,8 @@
 // Runtime types generated with workerd@1.20250424.0 2024-09-03 nodejs_compat_v2
 declare namespace Cloudflare {
 	interface Env {
-		
+		DATABASE_URL: string,
+		DIRECT_URL: string
 	}
 }
 interface Env extends Cloudflare.Env {}

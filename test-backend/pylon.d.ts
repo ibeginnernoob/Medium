@@ -1,7 +1,12 @@
-import '@getcronit/pylon'
+import '@getcronit/pylon';
 
 declare module '@getcronit/pylon' {
-  interface Bindings {}
+    interface Bindings {
+        DATABASE_URL: string;
+        DIRECT_URL;
+    }
 
-  interface Variables {}
+    interface Variables {
+        db: any;
+    }
 }
