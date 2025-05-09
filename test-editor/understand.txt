@@ -1,0 +1,38 @@
+[
+	{
+		content: [
+			{
+				type:,
+				text:
+			}
+		],
+		type: h3
+	},{
+		type: figure,
+		content: [
+			{
+				attrs: {
+					src: 
+				}
+				type: image
+			},
+			{
+				type: figcaption,
+				content: [
+					{
+						type:,
+						text:
+					}
+				]
+			}
+		]
+	},{
+		type: paragraph,
+		content: [
+			{
+				type:,
+				text:
+			}
+		]
+	}
+]

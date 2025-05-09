@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import NavBar from './components/NavBar';
 import Signup from './pages/Signup';
+import BlogEditor from './components/BlogEditor';
 import {
     AnimatePresence,
     useScroll,
@@ -22,7 +23,8 @@ function App() {
             {/* <AnimatePresence>
                 {scrollDirection === 'up' && <NavBar />}
             </AnimatePresence> */}
-			<Signup />
+			<BlogEditor />
+			{/* <Signup /> */}
         </div>
     );
 }

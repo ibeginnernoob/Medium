@@ -7,9 +7,9 @@ import { LuSearch } from 'react-icons/lu';
 import { IoCreateOutline } from 'react-icons/io5';
 import { Tooltip } from '@mui/material';
 import SigninDialog from '@/components/pages/signin/SigninDialog';
+import { motion } from 'motion/react';
 
 import { useState } from 'react';
-import { motion } from 'motion/react';
 
 export default function NavBar() {
 	const [isOpen, setOpenCard] = useState(false)

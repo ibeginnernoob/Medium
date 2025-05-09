@@ -12,8 +12,9 @@ const createUser = async (
     username: string
 ) => {
     try {
-		const ctx = getContext()		
-        const res = await ctx.db.user.create({
+		const ctx = getContext()
+		const prisma = ctx.db		
+        const res = await prisma.user.create({
             data: {
                 username: username,
                 email: email,
