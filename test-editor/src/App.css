@@ -1,0 +1,16 @@
+.bottom-arrow {
+    border-bottom: 5px solid #6a0136;
+}
+
+.bottom-arrow:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 0;
+    height: 0;
+    border-top: 25px solid #6a0136;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+}
